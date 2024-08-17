@@ -1,18 +1,54 @@
 from typing import List
 
-# Essa classe deixa mais claro que estamos trabalhando com transições
+# Transições para um único estado
 class Transicoes:
     def __init__(self):
         # Os estados guardam apenas as transições que possuem;
         # seus nomes estão no autômato em si
         self.transicoes = dict()
 
-    def insere_transicao(self, estado_destino, ingrediente):
+    def insere_transicao(self, estado_destino, ingrediente, desempilha="",
+                               empilha=""):
+        """
+        Insere um transição qualquer, decidindo se ela é de AFD ou de APD
+        baseando-se na presença ou ausência dos argumentos empilha e desempilha
+        """
+        if not desempilha and not empilha:
+            self.insere_transicao_afd(estado_destino, ingrediente)
+            return
+        self.insere_transicao_apd(estado_destino, ingrediente, desempilha,
+                                  empilha)
+
+    def insere_transicao_afd(self, estado_destino, ingrediente):
+        """
+        Insere uma transição de AFD, em que a leitura de um ingrediente
+        leva do estado atual para um estado de destino.
+        """
         self.transicoes[ingrediente] = estado_destino
+
+    def insere_transicao_apd(self, estado_destino, ingrediente, desempilha,
+                               empilha):
+        """
+        Insere uma transição de APD, em que a leitura de um ingrediente e o
+        símbolo no topo da pilha ("desempilha") levam do estado atual para um
+        estado de destino, empilhando um símbolo ("empilha")
+        """
+        if ingrediente not in self.transicoes:
+            self.transicoes[ingrediente] = dict()
+        elif self.transicoes[ingrediente] is not dict:
+            # Caso particular meio complicado aqui. Pode ser que uma transição
+            # para esse ingrediente tenha sido inserida como AFD. Precisamos
+            # converter a posição na lista desse ingrediente em um dicionário
+            # antes de mais nada
+            estado_destino = self.transicoes[ingrediente]
+            self.transicoes[ingrediente] = dict()
+            self.transicoes[ingrediente][""] = (estado_destino, "")
+
+        self.transicoes[ingrediente][desempilha] = (estado_destino, empilha)
 
 
 # O autômato nada mais é do que um dicionário de dicionários, representando
-# assim o grafo da máquina original como uma lista encadeada
+# assim o grafo da máquina original como uma lista de adjacência
 class Automato:
     def __init__(self, estados: List[str], inicial: str, finais: List[str]):
         self.estados = dict()
@@ -21,8 +57,11 @@ class Automato:
         self.inicial = inicial
         self.finais = finais
 
-    def insere_transicao(self, estado_partida, estado_destino, ingrediente):
-        self.estados[estado_partida].insere_transicao(estado_destino, ingrediente)
+    def insere_transicao(self, estado_partida, estado_destino, ingrediente,
+                         desempilha="", empilha=""):
+        self.estados[estado_partida].insere_transicao(estado_destino,
+                                                      ingrediente, desempilha,
+                                                      empilha)
 
     def imprime_automato(self):
         for estado in self.estados.keys():
