@@ -14,7 +14,7 @@ class Automato:
         # só reforçando aqui, o nome dos ingredientes são as keys() do dicionário
         self.dict_estados = dict()
         self.inicial = None
-        self.final = None
+        self.final = list()
     
     # usado na leitura da linha Q para inserir os estados que o automato terá
     def insere_estado(self, ingrediente) ->None:
@@ -26,9 +26,11 @@ class Automato:
     def atualiza_transicoes(self, ingrediente_partida, transicao, ingrediente_chegada)->None:
         self.dict_estados[ingrediente_partida].insere_transicao(transicao, ingrediente_chegada)
     
-    def insere_inicial_final(self, inicial, final):
-        self.final = final
+    def insere_inicial(self, inicial):
         self.inicial = inicial
+    
+    def insere_final(self, final):
+        self.final.append(final)
     
     def imprime_automato(self):
         for i in self.dict_estados.keys():
@@ -36,20 +38,23 @@ class Automato:
             for value, key in self.dict_estados[i].transicoes.items():
                 print("\t", key, "->", value)
 
-
-# Exemplo de execução para quem for ler ai
-afd = Automato()
-
-afd.insere_estado("I")
-afd.insere_estado("ing1")
-afd.insere_estado("ing2")
-afd.insere_estado("ing3")
-afd.insere_estado("erro")
-afd.insere_estado("F")
-afd.atualiza_transicoes("I", "a", "ing1")
-afd.atualiza_transicoes("ing1", "p", "ing2")
-afd.atualiza_transicoes("ing1", "o", "erro")
-afd.atualiza_transicoes("ing2", "p", "F")
-afd.atualiza_transicoes("ing2", "o", "erro")
-afd.atualiza_transicoes("F", "o", "erro")
-afd.imprime_automato()
+    def constroi_automato(self, texto):
+        for linha in texto:
+            linha = linha.rstrip()
+            if linha[0:2] == "Q:":
+                linha = linha.replace("Q: ", "")
+                for ingrediente in linha.split():
+                    self.insere_estado(ingrediente)
+            elif linha[0:2] == "I:":
+                linha = linha.replace("I: ", "")
+                self.insere_inicial(linha)
+            elif linha[0:2] == "F:":
+                linha = linha.replace("F: ", "")
+                self.insere_final(linha)
+            else:
+                linha = linha.split()
+                ingrediente_partida = linha[0]
+                transicao = linha[4]
+                ingrediente_chegada = linha[2]
+                self.atualiza_transicoes(ingrediente_partida, transicao, ingrediente_chegada)
+        
