@@ -28,4 +28,11 @@ class ListaIngredientes:
         for ingrediente in self.lista.keys():
             print(ingrediente, ":", self.lista[ingrediente])
             print("----------------------------")
-
+    def removeItem(self, chave):
+        self.lista.pop(chave)
+    def getItem(self, chave):
+        if chave not in self.lista.keys():
+            print("> Em listaIngredientes.py: chave não encontrada")
+            return None
+        return self.lista[chave]
+    
