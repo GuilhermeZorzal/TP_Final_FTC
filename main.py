@@ -7,11 +7,11 @@ def main():
     afd = a.leia_automato(dir + pocao)
     if afd is not None:
         afd.imprime_automato()
-    lista = ListaIngredientes()
-    lista.geraLista()
-    lista.imprimeIngredientes()
-    lista.adicionarItem("aaa", "Jarro com grito de desespero")
-    lista.imprimeIngredientes()
+    # lista = ListaIngredientes()
+    # lista.geraLista()
+    # lista.imprimeIngredientes()
+    # lista.adicionarItem("aaa", "Jarro com grito de desespero")
+    # lista.imprimeIngredientes()
 
 # Essa condicional irá executar sempre que esse arquivo for executado
 # diretamente. Quando ele for incluído como uma biblioteca (no REPL, por

@@ -1,4 +1,5 @@
 from typing import List
+from listaIngredientes import ListaIngredientes
 
 # Transições para um único estado
 class Transicoes:
@@ -56,6 +57,8 @@ class Automato:
             self.estados[estado] = Transicoes()
         self.inicial = inicial
         self.finais = finais
+        self.ingredientes = ListaIngredientes()
+        self.ingredientes.geraLista()
 
     def insere_transicao(self, estado_partida, estado_destino, ingrediente,
                          desempilha="", empilha=""):
@@ -140,7 +143,10 @@ def leia_automato(nome_arquivo: str) -> Automato:
                 print(f"[!] Em {nome_arquivo}, linha {cont_linha}: estado {estado_destino} desconhecido", file=stderr)
                 continue
 
-            ingrediente = saida[1].strip() # TODO: validar o ingrediente
+            ingrediente = saida[1].strip()
+            if not auto.ingredientes.getItem(ingrediente):
+                print(f"> Em automato: o ingrediente '{ingrediente}' nao existe na lista de ingredientes")
+                return None
             auto.insere_transicao(estado_partida, estado_destino, ingrediente)
 
         return auto

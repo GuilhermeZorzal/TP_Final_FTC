@@ -35,4 +35,3 @@ class ListaIngredientes:
             print("> Em listaIngredientes.py: chave não encontrada")
             return None
         return self.lista[chave]
-    
