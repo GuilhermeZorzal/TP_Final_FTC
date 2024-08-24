@@ -1,5 +1,6 @@
 import src.diagrama as diagramas
 from src.listaIngredientes import ListaIngredientes
+from src.automato import Automato
 
 def main():
     dir = "Pocoes/"
@@ -7,13 +8,8 @@ def main():
     afd = diagramas.leia_automato(dir + pocao)
     if afd is not None:
         afd.imprime_automato()
-    lista = dict()
-    lista.update({"dsa":"dsafagsg"})
-    # lista = ListaIngredientes()
-    # lista.geraLista()
-    # lista.imprimeIngredientes()
-    # lista.adicionarItem("aaa", "Jarro com grito de desespero")
-    # lista.imprimeIngredientes()
+    auto = Automato(afd)
+    auto.cria_pocao()
 
 # Essa condicional irá executar sempre que esse arquivo for executado
 # diretamente. Quando ele for incluído como uma biblioteca (no REPL, por

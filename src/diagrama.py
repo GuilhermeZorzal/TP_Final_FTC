@@ -49,7 +49,7 @@ class Transicoes:
     
     # Retorna (estado_destino, empilha)
     def get_estado_destino(self, ingrediente, topo_pilha):
-        if ingrediente in self.transicoes[ingrediente]:
+        if ingrediente in self.transicoes.keys():
             if type(self.transicoes[ingrediente]) == dict:
                 if not topo_pilha in self.transicoes[ingrediente]:
                     print(f"> Em diagrama: nao e possivel desempilhar {topo_pilha} da pilha na transicao atual")
