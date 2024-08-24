@@ -1,5 +1,5 @@
 from typing import List
-from listaIngredientes import ListaIngredientes
+from src.listaIngredientes import ListaIngredientes
 
 # Transições para um único estado
 class Transicoes:
@@ -46,11 +46,27 @@ class Transicoes:
             self.transicoes[ingrediente][""] = (estado_destino, "")
 
         self.transicoes[ingrediente][desempilha] = (estado_destino, empilha)
+    
+    # Retorna (estado_destino, empilha)
+    def get_estado_destino(self, ingrediente, topo_pilha):
+        if ingrediente in self.transicoes[ingrediente]:
+            if type(self.transicoes[ingrediente]) == dict:
+                if not topo_pilha in self.transicoes[ingrediente]:
+                    print(f"> Em diagrama: nao e possivel desempilhar {topo_pilha} da pilha na transicao atual")
+                    return None
+                else:
+                    return self.transicoes[ingrediente][topo_pilha]
+            else:
+                return self.transicoes[ingrediente]
+        else:
+            print(f"> Em diagrama: o estado atual nao possui a transicao {ingrediente}")
+            return None
+
 
 
 # O autômato nada mais é do que um dicionário de dicionários, representando
 # assim o grafo da máquina original como uma lista de adjacência
-class Automato:
+class Diagrama:
     def __init__(self, estados: List[str], inicial: str, finais: List[str]):
         self.estados = dict()
         for estado in estados:
@@ -71,10 +87,18 @@ class Automato:
             print(estado)
             for ing, est in self.estados[estado].transicoes.items():
                 print("\t", ing, "->", est)
-
+    # Retorna (estado_destino, empilha)
+    def get_prox_estado(self, estado_atual, entrada, topo_pilha=""):
+        if estado_atual in self.estados.keys():
+            return self.estados[estado_atual].get_estado_destino(entrada, topo_pilha)
+        else:
+            print(f"> Em diagrama: não existe estado {estado_atual} no diagrama")
+            return None
 
 # Lê a especificação de um autômato do arquivo no caminho especificado
-def leia_automato(nome_arquivo: str) -> Automato:
+def leia_automato(nome_arquivo: str) -> Diagrama:
+    # TODO: fazer a verificação se o automato possui pelo menos 3 transições
+    # TODO: fazer a verificação de caso o automato já possua uma transição como a especificada
     from sys import stderr
     with open(nome_arquivo) as arq:
         # Leitura dos estados da máquina
@@ -111,7 +135,7 @@ def leia_automato(nome_arquivo: str) -> Automato:
 
         cont_linha = 3
         print("Estados:", estados)
-        auto = Automato(estados, estado_inicial, estados_finais)
+        diagrama = Diagrama(estados, estado_inicial, estados_finais)
         # Leitura das transições
         while True:
             # Se a gente tivesse certeza que o programa seria executado em
@@ -144,9 +168,9 @@ def leia_automato(nome_arquivo: str) -> Automato:
                 continue
 
             ingrediente = saida[1].strip()
-            if not auto.ingredientes.getItem(ingrediente):
-                print(f"> Em automato: o ingrediente '{ingrediente}' nao existe na lista de ingredientes")
+            if not diagrama.ingredientes.getItem(ingrediente):
+                print(f"> Em diagrama: o ingrediente '{ingrediente}' nao existe na lista de ingredientes")
                 return None
-            auto.insere_transicao(estado_partida, estado_destino, ingrediente)
+            diagrama.insere_transicao(estado_partida, estado_destino, ingrediente)
 
-        return auto
+        return diagrama

@@ -1,10 +1,9 @@
-
 class ListaIngredientes:
     def __init__(self) -> None:
         self.lista = dict()
         pass
     
-    def geraLista(self, path='ingredientes.txt'):
+    def geraLista(self, path='Pocoes/ingredientes.txt'):
         with open(path) as arq:
             for line in arq:
                 chave, ingrediente = line.split(":")

@@ -1,12 +1,14 @@
-import automato as a
-from listaIngredientes import ListaIngredientes
+import src.diagrama as diagramas
+from src.listaIngredientes import ListaIngredientes
 
 def main():
     dir = "Pocoes/"
     pocao = "receita1.txt"
-    afd = a.leia_automato(dir + pocao)
+    afd = diagramas.leia_automato(dir + pocao)
     if afd is not None:
         afd.imprime_automato()
+    lista = dict()
+    lista.update({"dsa":"dsafagsg"})
     # lista = ListaIngredientes()
     # lista.geraLista()
     # lista.imprimeIngredientes()
