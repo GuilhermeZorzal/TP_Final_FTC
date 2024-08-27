@@ -1,6 +1,3 @@
-from typing import List
-from listaIngredientes import ListaIngredientes
-
 # Transições para um único estado
 class Transicoes:
     def __init__(self):
@@ -8,8 +5,8 @@ class Transicoes:
         # seus nomes estão no autômato em si
         self.transicoes = dict()
 
-    def insere_transicao(self, estado_destino, ingrediente, desempilha="",
-                               empilha=""):
+    def insere_transicao(self, estado_destino, ingrediente,
+                         desempilha=None, empilha=None):
         """
         Insere um transição qualquer, decidindo se ela é de AFD ou de APD
         baseando-se na presença ou ausência dos argumentos empilha e desempilha
@@ -17,8 +14,8 @@ class Transicoes:
         if not desempilha and not empilha:
             self.insere_transicao_afd(estado_destino, ingrediente)
             return
-        self.insere_transicao_apd(estado_destino, ingrediente, desempilha,
-                                  empilha)
+        self.insere_transicao_apd(estado_destino, ingrediente,
+                                  desempilha, empilha)
 
     def insere_transicao_afd(self, estado_destino, ingrediente):
         """
@@ -27,8 +24,8 @@ class Transicoes:
         """
         self.transicoes[ingrediente] = estado_destino
 
-    def insere_transicao_apd(self, estado_destino, ingrediente, desempilha,
-                               empilha):
+    def insere_transicao_apd(self, estado_destino, ingrediente,
+                             desempilha, empilha):
         """
         Insere uma transição de APD, em que a leitura de um ingrediente e o
         símbolo no topo da pilha ("desempilha") levam do estado atual para um
@@ -43,28 +40,25 @@ class Transicoes:
             # antes de mais nada
             estado_destino = self.transicoes[ingrediente]
             self.transicoes[ingrediente] = dict()
-            self.transicoes[ingrediente][""] = (estado_destino, "")
+            self.transicoes[ingrediente]["_"] = (estado_destino, "_")
 
         self.transicoes[ingrediente][desempilha] = (estado_destino, empilha)
 
 
-# O autômato nada mais é do que um dicionário de dicionários, representando
-# assim o grafo da máquina original como uma lista de adjacência
-class Automato:
-    def __init__(self, estados: List[str], inicial: str, finais: List[str]):
+# O diagrama do autômato nada mais é do que um dicionário de dicionários,
+# representando assim o grafo da máquina original como uma lista de adjacência
+class Diagrama:
+    def __init__(self, estados, inicial, finais):
         self.estados = dict()
         for estado in estados:
             self.estados[estado] = Transicoes()
         self.inicial = inicial
         self.finais = finais
-        self.ingredientes = ListaIngredientes()
-        self.ingredientes.geraLista()
 
-    def insere_transicao(self, estado_partida, estado_destino, ingrediente,
-                         desempilha="", empilha=""):
-        self.estados[estado_partida].insere_transicao(estado_destino,
-                                                      ingrediente, desempilha,
-                                                      empilha)
+    def insere_transicao(self, estado_partida, estado_destino, ing,
+                         desempilha=None, empilha=None):
+        self.estados[estado_partida].insere_transicao(estado_destino, ing,
+                                                      desempilha, empilha)
 
     def imprime_automato(self):
         for estado in self.estados.keys():
@@ -74,78 +68,87 @@ class Automato:
 
 
 # Lê a especificação de um autômato do arquivo no caminho especificado
-def leia_automato(nome_arquivo: str) -> Automato:
-    from sys import stderr
+def carrega_diagrama(nome_arquivo: str, ingredientes) -> Diagrama:
     with open(nome_arquivo) as arq:
         # Leitura dos estados da máquina
         linha_estados = arq.readline().strip()
         if not linha_estados.startswith("Q:"):
-            print(f"[!] Em {nome_arquivo}: primeira linha deve especificar os estados", file=stderr)
-            print("Formato: 'Q:' seguido pela lista de estados, separados por espaços", file=stderr)
+            print(f"[!] Em {nome_arquivo}: primeira linha deve especificar"
+                  " os estados")
+            print("Formato: 'Q:' seguido pela lista de estados, separados"
+                  " por espaços")
             return None
         estados = linha_estados[2:].split()
 
         # Leitura do estado inicial da máquina
         linha_inicial = arq.readline().strip()
         if not linha_inicial.startswith("I:"):
-            print(f"[!] Em {nome_arquivo}: segunda linha deve especificar o estado inicial", file=stderr)
-            print("Formato: 'I:' seguido nome do estado inicial", file=stderr)
+            print(f"[!] Em {nome_arquivo}: segunda linha deve especificar o"
+                  " estado inicial")
+            print("Formato: 'I:' seguido nome do estado inicial")
             return None
         estado_inicial = linha_inicial[2:].lstrip()
         if not estado_inicial in estados:
-            print(f"[!] Em {nome_arquivo}: estado inicial desconhecido", file=stderr)
+            print(f"[!] Em {nome_arquivo}: estado inicial desconhecido")
             return None
 
         # Leitura dos estados finais da máquina
         linha_finais = arq.readline().strip()
         if not linha_finais.startswith("F:"):
-            print(f"[!] Em {nome_arquivo}: segunda linha deve especificar os estado finais", file=stderr)
-            print("Formato: 'F:' seguido pela lista de estados finais, separados por espaços", file=stderr)
+            print(f"[!] Em {nome_arquivo}: segunda linha deve especificar"
+                  " os estado finais")
+            print("Formato: 'F:' seguido pela lista de estados finais,"
+                  " separados por espaços")
             return None
         # Múltiplos estados finais são possíveis
         estados_finais = linha_finais[2:].split()
         for estado_final in estados_finais:
             if not estado_final in estados:
-                print(f"[!] Em {nome_arquivo}: estado final {estado_final} desconhecido", file=stderr)
+                print(f"[!] Em {nome_arquivo}: estado final {estado_final}"
+                      " desconhecido")
                 return None
 
-        cont_linha = 3
+        num_linha = 3
         print("Estados:", estados)
-        auto = Automato(estados, estado_inicial, estados_finais)
+        auto = Diagrama(estados, estado_inicial, estados_finais)
         # Leitura das transições
         while True:
             # Se a gente tivesse certeza que o programa seria executado em
             # python 3.10+, daria pra usar o operador walrus (:=) aqui e seria
             # lindo. Por compatibilidade, não vou fazer isso
-            cont_linha += 1
+            num_linha += 1
             linha = arq.readline()
             if linha == "---\n" or not linha:
                 break
             trans = linha.split("->")
             if len(trans) != 2:
-                print(f"[!] Transição inválida: {linha}", endl="", file=stderr)
-                print("Formato: [estado] -> [estado_destino] | [ingrediente]", file=stderr)
+                print(f"[!] Transição inválida: {linha}", endl="")
+                print("Formato: [estado] -> [estado_destino] | [ingrediente]")
                 continue
 
             estado_partida = trans[0].strip()
             if estado_partida not in estados:
-                print(f"[!] Em {nome_arquivo}, linha {cont_linha}: estado {estado_partida} desconhecido", file=stderr)
+                print(f"[!] Em {nome_arquivo}, linha {num_linha}: estado"
+                      f" {estado_partida} desconhecido")
                 continue
 
             saida = trans[1].split("|")
             if len(saida) != 2:
-                print(f"[!] Transição inválida: {linha}", endl="", file=stderr)
-                print("Formato: [estado] -> [estado_destino] | [ingrediente]", file=stderr)
+                print(f"[!] Transição inválida: {linha}", endl="")
+                print("Formato: [estado] -> [estado_destino] | [ingrediente]")
                 continue
 
             estado_destino = saida[0].strip()
             if estado_destino not in estados:
-                print(f"[!] Em {nome_arquivo}, linha {cont_linha}: estado {estado_destino} desconhecido", file=stderr)
+                print(f"[!] Em {nome_arquivo}, linha {num_linha}: estado"
+                      f"{estado_destino} desconhecido")
                 continue
 
             ingrediente = saida[1].strip()
-            if not auto.ingredientes.getItem(ingrediente):
-                print(f"> Em automato: o ingrediente '{ingrediente}' nao existe na lista de ingredientes")
+            # Validação do ingrediente
+            if ingrediente not in ingredientes.keys():
+                print(f"[!] Em {nome_arquivo}, linha {num_linha}:"
+                      f" ingrediente {ingrediente} não reconhecido")
                 return None
             auto.insere_transicao(estado_partida, estado_destino, ingrediente)
 
