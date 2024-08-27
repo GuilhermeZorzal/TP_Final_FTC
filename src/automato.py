@@ -10,9 +10,7 @@ class Automato:
 
     # Retorna o topo da pilha ou palavra vazia se ela estiver vazia
     def topo_pilha(self):
-        if not self.pilha:
-            return "_"
-        return self.pilha.pop()
+        return self.pilha.pop() if self.pilha else "_"
 
     # Executa uma transição
     def executa_transicao(self, ingrediente):
@@ -31,11 +29,11 @@ class Automato:
                 self.erro = True
                 return
             saida, empilha = saida[topo]
-            self.pilha.append(empilha)
+            if empilha != "_":
+                self.pilha.append(empilha)
         # Mudamos para o próximo estado!
         self.estado_atual = saida
 
-    # Checa se a computação foi concluída
-    def terminou(self):
-        return (self.estado_atual in self.diag.finais) and (not self.pilha)
-
+    # Checa se a computação foi corretamente concluída
+    def reconheceu(self):
+        return not self.erro and self.estado_atual in self.diag.finais and not self.pilha

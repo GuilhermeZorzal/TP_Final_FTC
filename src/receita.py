@@ -45,9 +45,8 @@ class Transicoes:
         self.transicoes[ingrediente][desempilha] = (estado_destino, empilha)
 
 
-# O diagrama do autômato nada mais é do que um dicionário de dicionários,
-# representando assim o grafo da máquina original como uma lista de adjacência
-class Diagrama:
+# A receita nada mais é do que a especificação de um autômato
+class Receita:
     def __init__(self, estados, inicial, finais):
         self.estados = dict()
         for estado in estados:
@@ -60,7 +59,7 @@ class Diagrama:
         self.estados[estado_partida].insere_transicao(estado_destino, ing,
                                                       desempilha, empilha)
 
-    def imprime_automato(self):
+    def imprime(self):
         for estado in self.estados.keys():
             print(estado)
             for ing, est in self.estados[estado].transicoes.items():
@@ -68,49 +67,47 @@ class Diagrama:
 
 
 # Lê a especificação de um autômato do arquivo no caminho especificado
-def carrega_diagrama(nome_arquivo: str, ingredientes) -> Diagrama:
-    with open(nome_arquivo) as arq:
+def carrega_receita(nome_arq: str, ingredientes) -> Receita:
+    with open(nome_arq) as arq:
         # Leitura dos estados da máquina
         linha_estados = arq.readline().strip()
         if not linha_estados.startswith("Q:"):
-            print(f"[!] Em {nome_arquivo}: primeira linha deve especificar"
-                  " os estados")
-            print("Formato: 'Q:' seguido pela lista de estados, separados"
-                  " por espaços")
+            print(f"[!] Em {nome_arq}: primeira linha deve especificar"
+                  " os estados\nFormato: 'Q:' seguido pela lista de estados,"
+                  " separados por espaços")
             return None
         estados = linha_estados[2:].split()
 
         # Leitura do estado inicial da máquina
         linha_inicial = arq.readline().strip()
         if not linha_inicial.startswith("I:"):
-            print(f"[!] Em {nome_arquivo}: segunda linha deve especificar o"
-                  " estado inicial")
-            print("Formato: 'I:' seguido nome do estado inicial")
+            print(f"[!] Em {nome_arq}: segunda linha deve especificar o"
+                  " estado inicial\nFormato 'I:' seguido do nome do estado"
+                  " inicial")
             return None
         estado_inicial = linha_inicial[2:].lstrip()
         if not estado_inicial in estados:
-            print(f"[!] Em {nome_arquivo}: estado inicial desconhecido")
+            print(f"[!] Em {nome_arq}: estado inicial desconhecido")
             return None
 
         # Leitura dos estados finais da máquina
         linha_finais = arq.readline().strip()
         if not linha_finais.startswith("F:"):
-            print(f"[!] Em {nome_arquivo}: segunda linha deve especificar"
-                  " os estado finais")
-            print("Formato: 'F:' seguido pela lista de estados finais,"
-                  " separados por espaços")
+            print(f"[!] Em {nome_arq}: segunda linha deve especificar"
+                  " os estado finais\nFormato 'F' seguido pela lista de"
+                  " estados finais, separados por espaços")
             return None
         # Múltiplos estados finais são possíveis
         estados_finais = linha_finais[2:].split()
         for estado_final in estados_finais:
             if not estado_final in estados:
-                print(f"[!] Em {nome_arquivo}: estado final {estado_final}"
+                print(f"[!] Em {nome_arq}: estado final {estado_final}"
                       " desconhecido")
                 return None
 
         num_linha = 3
         print("Estados:", estados)
-        auto = Diagrama(estados, estado_inicial, estados_finais)
+        diag = Receita(estados, estado_inicial, estados_finais)
         # Leitura das transições
         while True:
             # Se a gente tivesse certeza que o programa seria executado em
@@ -128,7 +125,7 @@ def carrega_diagrama(nome_arquivo: str, ingredientes) -> Diagrama:
 
             estado_partida = trans[0].strip()
             if estado_partida not in estados:
-                print(f"[!] Em {nome_arquivo}, linha {num_linha}: estado"
+                print(f"[!] Em {nome_arq}, linha {num_linha}: estado"
                       f" {estado_partida} desconhecido")
                 continue
 
@@ -140,16 +137,16 @@ def carrega_diagrama(nome_arquivo: str, ingredientes) -> Diagrama:
 
             estado_destino = saida[0].strip()
             if estado_destino not in estados:
-                print(f"[!] Em {nome_arquivo}, linha {num_linha}: estado"
+                print(f"[!] Em {nome_arq}, linha {num_linha}: estado"
                       f"{estado_destino} desconhecido")
                 continue
 
             ingrediente = saida[1].strip()
             # Validação do ingrediente
             if ingrediente not in ingredientes:
-                print(f"[!] Em {nome_arquivo}, linha {num_linha}:"
+                print(f"[!] Em {nome_arq}, linha {num_linha}:"
                       f" ingrediente {ingrediente} não reconhecido")
                 return None
-            auto.insere_transicao(estado_partida, estado_destino, ingrediente)
+            diag.insere_transicao(estado_partida, estado_destino, ingrediente)
 
-        return auto
+        return diag

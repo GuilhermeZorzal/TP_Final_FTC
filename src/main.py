@@ -1,4 +1,5 @@
-import diagrama as d
+import receita as r
+import automato as a
 
 # Lê a lista de ingredientes válidos
 def carrega_ingredientes(nome_arq='ingredientes.txt'):
@@ -20,12 +21,33 @@ def carrega_ingredientes(nome_arq='ingredientes.txt'):
     return ingredientes
 
 def main():
-    dir = "Pocoes/"
-    pocao = "receita1.txt"
+    dir = "poções/"
+    arq_receita = "receita1.txt"
     ingredientes = carrega_ingredientes()
-    diag = d.carrega_diagrama(f"{dir}{pocao}", ingredientes)
-    if diag is not None:
-        diag.imprime_automato()
+    receita = r.carrega_receita(f"{dir}{arq_receita}", ingredientes)
+    if receita is not None:
+        receita.imprime()
+
+    # Criação de poção
+    primeiro = True
+    auto = a.Automato(receita)
+    while True:
+        if primeiro:
+            ing = input("Insira o símbolo do primeiro ingrediente: ")
+            if ing not in ingredientes:
+                print("Ingrediente não reconhecido...")
+                continue
+            primeiro = False
+        else:
+            resp = input("Deseja inserir mais um ingrediente? (s/n) ")
+            if resp != "s" and resp != "S":
+                break
+            ing = input("Símbolo do ingrediente: ")
+            if ing not in ingredientes:
+                print("Ingrediente não reconhecido...")
+                continue
+        auto.executa_transicao(ing)
+    print("aceita" if auto.reconheceu() else "rejeita")
 
 # Essa condicional irá executar sempre que esse arquivo for executado
 # diretamente. Quando ele for incluído como uma biblioteca (no REPL, por
