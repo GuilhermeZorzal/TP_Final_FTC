@@ -146,7 +146,7 @@ def carrega_diagrama(nome_arquivo: str, ingredientes) -> Diagrama:
 
             ingrediente = saida[1].strip()
             # Validação do ingrediente
-            if ingrediente not in ingredientes.keys():
+            if ingrediente not in ingredientes:
                 print(f"[!] Em {nome_arquivo}, linha {num_linha}:"
                       f" ingrediente {ingrediente} não reconhecido")
                 return None
