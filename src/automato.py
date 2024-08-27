@@ -1,11 +1,11 @@
-from diagrama import Diagrama
+from receita import Receita
 
 # Realização dinâmica de um diagrama de estados
 class Automato:
-    def __init__(self, diag: Diagrama):
+    def __init__(self, receita: Receita):
         self.erro = False
-        self.diagrama = diag
-        self.estado_atual = diag.inicial
+        self.receita = receita
+        self.estado_atual = receita.inicial
         self.pilha = []
 
     # Retorna o topo da pilha ou palavra vazia se ela estiver vazia
@@ -15,13 +15,13 @@ class Automato:
     # Executa uma transição
     def executa_transicao(self, ingrediente):
         if self.erro: return
-        trans = self.diagrama.estados[self.estado_atual]
+        trans = self.receita.estados[self.estado_atual]
         if ingrediente not in trans:
             # Sem transição para o ingrediente fornecido; erro
             self.erro = True
             return
         saida = trans[ingrediente]
-        if saida is dict:
+        if isinstance(saida, dict):
             # Transição de autômato de pilha!
             topo = self.topo_pilha()
             if topo not in saida:

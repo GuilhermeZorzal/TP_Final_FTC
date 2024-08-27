@@ -33,7 +33,7 @@ class Transicoes:
         """
         if ingrediente not in self.transicoes:
             self.transicoes[ingrediente] = dict()
-        elif self.transicoes[ingrediente] is not dict:
+        elif not isinstance(self.transicoes[ingrediente], dict):
             # Caso particular meio complicado aqui. Pode ser que uma transição
             # para esse ingrediente tenha sido inserida como AFD. Precisamos
             # converter a posição na lista desse ingrediente em um dicionário
@@ -60,11 +60,22 @@ class Receita:
                                                       desempilha, empilha)
 
     def imprime(self):
-        for estado in self.estados.keys():
+        for estado in self.estados:
             print(estado)
-            for ing, est in self.estados[estado].transicoes.items():
-                print("\t", ing, "->", est)
+            for ing, saida in self.estados[estado].transicoes.items():
+                if not isinstance(saida, dict):
+                    # Transição de AF: simples e direta
+                    print(f"\t{ing} -> {saida}")
+                else:
+                    # Múltiplas transições de AP
+                    for desempilha, (estado_destino, empilha) in saida.items():
+                        print(f"\t{ing}, {desempilha} -> {estado_destino} / {empilha}")
 
+
+# Imprime formato de uma transição
+def imprime_formato():
+    print("Formato: {estado} -> {estado_destino} | {ingrediente}"
+          " [, {topo-pilha} / {empilha}]")
 
 # Lê a especificação de um autômato do arquivo no caminho especificado
 def carrega_receita(nome_arq: str, ingredientes) -> Receita:
@@ -106,8 +117,7 @@ def carrega_receita(nome_arq: str, ingredientes) -> Receita:
                 return None
 
         num_linha = 3
-        print("Estados:", estados)
-        diag = Receita(estados, estado_inicial, estados_finais)
+        receita = Receita(estados, estado_inicial, estados_finais)
         # Leitura das transições
         while True:
             # Se a gente tivesse certeza que o programa seria executado em
@@ -117,10 +127,11 @@ def carrega_receita(nome_arq: str, ingredientes) -> Receita:
             linha = arq.readline()
             if linha == "---\n" or not linha:
                 break
+
             trans = linha.split("->")
             if len(trans) != 2:
                 print(f"[!] Transição inválida: {linha}", endl="")
-                print("Formato: [estado] -> [estado_destino] | [ingrediente]")
+                imprime_formato()
                 continue
 
             estado_partida = trans[0].strip()
@@ -132,7 +143,7 @@ def carrega_receita(nome_arq: str, ingredientes) -> Receita:
             saida = trans[1].split("|")
             if len(saida) != 2:
                 print(f"[!] Transição inválida: {linha}", endl="")
-                print("Formato: [estado] -> [estado_destino] | [ingrediente]")
+                imprime_formato()
                 continue
 
             estado_destino = saida[0].strip()
@@ -141,12 +152,31 @@ def carrega_receita(nome_arq: str, ingredientes) -> Receita:
                       f"{estado_destino} desconhecido")
                 continue
 
-            ingrediente = saida[1].strip()
+            entrada = saida[1].strip().split(',', maxsplit=1)
+            if len(entrada) == 1:
+                # Transição de AFD: é só um ingrediente
+                ingrediente = entrada[0]
+                desempilha = None
+                empilha = None
+            else:
+                # Deveria ser uma transição de APD:
+                # ingrediente, desempilha / empilha
+                ingrediente = entrada[0]
+                entrada = entrada[1].split('/', maxsplit=1)
+                if len(entrada) == 1:
+                    print(f"[!] Em {nome_arq}, linha {num_linha}: transição de"
+                          " de AP sem propriedade a ser empilhada. Caso deseje"
+                          " que nenhuma propriedade seja empilha, use o símbolo '_'")
+                    imprime_formato()
+                    continue
+                desempilha = entrada[0]
+                empilha = entrada[1]
+
             # Validação do ingrediente
             if ingrediente not in ingredientes:
                 print(f"[!] Em {nome_arq}, linha {num_linha}:"
-                      f" ingrediente {ingrediente} não reconhecido")
-                return None
-            diag.insere_transicao(estado_partida, estado_destino, ingrediente)
-
-        return diag
+                      f" ingrediente {entrada} não reconhecido")
+                continue
+            receita.insere_transicao(estado_partida, estado_destino,
+                                     ingrediente, desempilha, empilha)
+        return receita

@@ -2,7 +2,7 @@ import receita as r
 import automato as a
 
 # Lê a lista de ingredientes válidos
-def carrega_ingredientes(nome_arq='ingredientes.txt'):
+def carrega_ingredientes(nome_arq):
     num_linha = 0
     ingredientes = {}
     with open(nome_arq) as arq:
@@ -23,12 +23,16 @@ def carrega_ingredientes(nome_arq='ingredientes.txt'):
 def main():
     dir = "poções/"
     arq_receita = "receita1.txt"
-    ingredientes = carrega_ingredientes()
+    arq_ingredientes = "ingredientes.txt"
+
+    ingredientes = carrega_ingredientes(f"{dir}{arq_ingredientes}")
     receita = r.carrega_receita(f"{dir}{arq_receita}", ingredientes)
     if receita is not None:
+        print(f"Receita lida do arquivo {dir}{arq_receita}:")
         receita.imprime()
 
     # Criação de poção
+    """
     primeiro = True
     auto = a.Automato(receita)
     while True:
@@ -48,6 +52,7 @@ def main():
                 continue
         auto.executa_transicao(ing)
     print("aceita" if auto.reconheceu() else "rejeita")
+    """
 
 # Essa condicional irá executar sempre que esse arquivo for executado
 # diretamente. Quando ele for incluído como uma biblioteca (no REPL, por
