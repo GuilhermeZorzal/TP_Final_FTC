@@ -10,7 +10,7 @@ class Automato:
 
     # Retorna o topo da pilha ou palavra vazia se ela estiver vazia
     def topo_pilha(self):
-        if len(self.pilha) == 0:
+        if not self.pilha:
             return "_"
         return self.pilha.pop()
 
@@ -37,5 +37,5 @@ class Automato:
 
     # Checa se a computação foi concluída
     def terminou(self):
-        return (self.estado_atual in self.diag.finais) and (len(self.pilha) == 0)
+        return (self.estado_atual in self.diag.finais) and (not self.pilha)
 
