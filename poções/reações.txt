@@ -1,0 +1,4 @@
+a  : apimentada
+s  : salgada demais
+mor: mortífera
+biz: bizarrésima

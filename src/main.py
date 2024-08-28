@@ -1,44 +1,33 @@
-import receita as r
 import automato as a
-
-# Lê a lista de ingredientes válidos
-def carrega_ingredientes(nome_arq):
-    num_linha = 0
-    ingredientes = {}
-    with open(nome_arq) as arq:
-        for line in arq:
-            num_linha += 1
-            # Cada linha do arquivo com a lista de ingredientes deve estar
-            # estruturada no formato <nome-ingrediente> : <descrição>
-            nome, desc = line.split(":")
-            nome = nome.strip()
-            desc = desc.strip()
-            if len(nome) > 4 or not nome:
-                print(f"Na linha {num_linha}, lista de ingredientes {nome_arq}:"
-                      "nome de ingrediente deve ter no máximo 3 caracteres")
-                exit(1)
-            ingredientes[nome] = desc
-    return ingredientes
+import alfabeto as s
+import leitura as l
 
 def main():
     dir = "poções/"
-    arq_receita = "receita1.txt"
-    arq_ingredientes = "ingredientes.txt"
+    arq_receita = dir + "receita1.txt"
+    arq_ingredientes = dir + "ingredientes.txt"
+    arq_reacoes = dir + "reações.txt"
 
-    ingredientes = carrega_ingredientes(f"{dir}{arq_ingredientes}")
-    receita = r.carrega_receita(f"{dir}{arq_receita}", ingredientes)
+    try:
+        # Criação do alfabeto pode falhar, se um dos arquivos não existir.
+        # Não tenho certeza se essa foi a melhor forma de arquitetar esse
+        # comportamento; inicializadores que leem arquivos e lançam exceções
+        # são um pouco estranhos. Mas funciona
+        sigma = s.Alfabeto(arq_ingredientes, arq_reacoes)
+    except: exit(1)
+
+    receita = l.carrega_receita(arq_receita, sigma)
     if receita is not None:
         print(f"Receita lida do arquivo {dir}{arq_receita}:")
         receita.imprime()
 
     # Criação de poção
-    """
     primeiro = True
     auto = a.Automato(receita)
     while True:
         if primeiro:
             ing = input("Insira o símbolo do primeiro ingrediente: ")
-            if ing not in ingredientes:
+            if not sigma.valida_ingrediente(ing):
                 print("Ingrediente não reconhecido...")
                 continue
             primeiro = False
@@ -47,12 +36,11 @@ def main():
             if resp != "s" and resp != "S":
                 break
             ing = input("Símbolo do ingrediente: ")
-            if ing not in ingredientes:
+            if not sigma.valida_ingrediente(ing):
                 print("Ingrediente não reconhecido...")
                 continue
         auto.executa_transicao(ing)
     print("aceita" if auto.reconheceu() else "rejeita")
-    """
 
 # Essa condicional irá executar sempre que esse arquivo for executado
 # diretamente. Quando ele for incluído como uma biblioteca (no REPL, por

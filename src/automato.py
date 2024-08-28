@@ -15,12 +15,12 @@ class Automato:
     # Executa uma transição
     def executa_transicao(self, ingrediente):
         if self.erro: return
-        trans = self.receita.estados[self.estado_atual]
-        if ingrediente not in trans:
+        regras = self.receita.estados[self.estado_atual].regras
+        if ingrediente not in regras:
             # Sem transição para o ingrediente fornecido; erro
             self.erro = True
             return
-        saida = trans[ingrediente]
+        saida = regras[ingrediente]
         if isinstance(saida, dict):
             # Transição de autômato de pilha!
             topo = self.topo_pilha()
