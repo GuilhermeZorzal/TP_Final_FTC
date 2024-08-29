@@ -36,4 +36,4 @@ class Automato:
 
     # Checa se a computação foi corretamente concluída
     def reconheceu(self):
-        return not self.erro and self.estado_atual in self.diag.finais and not self.pilha
+        return not self.erro and self.estado_atual in self.receita.finais and not self.pilha

@@ -5,5 +5,5 @@ I -> ing1       | a, _ / a
 ing1 -> ing2    | p, _ / s
 ing1 -> erro    | o, _ / mor
 ing2 -> F       | p, _ / biz
-ing2 -> erro    | o, _ / _
+ing2 -> erro    | p, _ / _
 F -> erro       | o, _ / _

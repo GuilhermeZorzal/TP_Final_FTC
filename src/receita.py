@@ -18,6 +18,10 @@ class Regras:
         Insere uma transição de AFD, em que a leitura de um ingrediente
         leva do estado atual para um estado de destino.
         """
+        if ingrediente in self.regras:
+            print(f"[!] A transição \"{ingrediente}\" "
+                  f"é compatível, por favor verificar determinismo")    
+            exit()
         self.regras[ingrediente] = estado_destino
 
     def insere_apd(self, estado_destino, ingrediente, desempilha, empilha):
@@ -28,7 +32,14 @@ class Regras:
         """
         if ingrediente not in self.regras:
             self.regras[ingrediente] = dict()
-        elif not isinstance(self.regras[ingrediente], dict):
+        else:
+            print(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
+                  f"é compatível com a transição \"{ingrediente},"
+                  f" {list(self.regras[ingrediente].keys())[0]} /"
+                  f" {self.regras[ingrediente][desempilha][1]}\""
+                  ", por favor verificar determinismo")    
+            exit()
+        if not isinstance(self.regras[ingrediente], dict):
             # Caso particular meio complicado aqui. Pode ser que uma transição
             # para esse ingrediente tenha sido inserida como AFD. Precisamos
             # converter a posição na lista desse ingrediente em um dicionário
@@ -65,3 +76,4 @@ class Receita:
                 # Múltiplas transições de AP
                 for desempilha, (estado_destino, empilha) in saida.items():
                     print(f"\t{ing}, {desempilha} -> {estado_destino} / {empilha}")
+            print()

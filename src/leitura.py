@@ -122,7 +122,7 @@ def processa_regra(nome_arq, sigma, receita, linha, num_linha):
         if not sigma.valida_reacao(empilha):
             print(f"[!] Em {nome_arq}, linha {num_linha}:"
                   f" reação {empilha} não reconhecida")
-
+    
     # Validação do ingrediente
     if not sigma.valida_ingrediente(ingrediente):
         print(f"[!] Em {nome_arq}, linha {num_linha}:"

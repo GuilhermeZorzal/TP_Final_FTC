@@ -4,7 +4,7 @@ import leitura as l
 
 def main():
     dir = "poções/"
-    arq_receita = dir + "receita1.txt"
+    arq_receita = dir + "receitand.txt"
     arq_ingredientes = dir + "ingredientes.txt"
     arq_reacoes = dir + "reações.txt"
 
@@ -18,7 +18,7 @@ def main():
 
     receita = l.carrega_receita(arq_receita, sigma)
     if receita is not None:
-        print(f"Receita lida do arquivo {dir}{arq_receita}:")
+        print(f"Receita lida do arquivo {dir}{arq_receita}:\n")
         receita.imprime()
 
     # Criação de poção
