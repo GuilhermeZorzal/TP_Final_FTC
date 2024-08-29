@@ -1,7 +1,8 @@
 # Regras de transição para um único estado
 class Regras:
-    def __init__(self):
+    def __init__(self, nome):
         self.regras = dict()
+        self.nome_estado = nome
 
     def insere(self, estado_destino, ingrediente, desempilha=None, empilha=None):
         """
@@ -19,7 +20,7 @@ class Regras:
         leva do estado atual para um estado de destino.
         """
         if ingrediente in self.regras:
-            print(f"[!] A transição \"{ingrediente}\" "
+            print(f"[!] A transição \"{ingrediente}\" no estado {self.nome_estado} "
                   f"é compatível, por favor verificar determinismo")    
             exit()
         self.regras[ingrediente] = estado_destino
@@ -37,7 +38,7 @@ class Regras:
                   f"é compatível com a transição \"{ingrediente},"
                   f" {list(self.regras[ingrediente].keys())[0]} /"
                   f" {self.regras[ingrediente][desempilha][1]}\""
-                  ", por favor verificar determinismo")    
+                  f" no estado {self.nome_estado}\nPor favor verificar determinismo")    
             exit()
         if not isinstance(self.regras[ingrediente], dict):
             # Caso particular meio complicado aqui. Pode ser que uma transição
@@ -56,7 +57,7 @@ class Receita:
     def __init__(self, estados, inicial, finais):
         self.estados = dict()
         for estado in estados:
-            self.estados[estado] = Regras()
+            self.estados[estado] = Regras(estado)
         self.inicial = inicial
         self.finais = finais
 
