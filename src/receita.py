@@ -91,3 +91,5 @@ class Receita:
                 for desempilha, (estado_destino, empilha) in saida.items():
                     print(f"\t{ing}, {desempilha} -> {estado_destino} / {empilha}")
             print()
+
+    

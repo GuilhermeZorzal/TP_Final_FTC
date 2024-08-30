@@ -1,10 +1,20 @@
 import automato as a
 import alfabeto as s
 import leitura as l
+import os
+import platform
+
 
 def main():
+    if platform.system() == "Windows":
+        os.system('cls')
+    else:
+        os.system('clear')
+    
+    receita = input("Insira o nome da receita desejada\n>> ")
+    
     dir = "poções/"
-    arq_receita = dir + "receita1.txt"
+    arq_receita = dir + receita
     arq_ingredientes = dir + "ingredientes.txt"
     arq_reacoes = dir + "reações.txt"
 
@@ -18,9 +28,12 @@ def main():
 
     receita = l.carrega_receita(arq_receita, sigma)
     if receita is not None:
-        print(f"Receita lida do arquivo {dir}{arq_receita}:\n")
-        receita.imprime()
-
+        print(f"Receita lida do arquivo {dir}{arq_receita}\n")
+        if(input("Deseja ver a receita? [s/n]\n>> ") == 's'):
+            receita.imprime()
+        
+    if(input("Deseja ver os ingredientes disponíveis? [s/n]\n>> ") == 's'):
+            sigma.lista_ingredientes()
     # Criação de poção
     primeiro = True
     auto = a.Automato(receita)

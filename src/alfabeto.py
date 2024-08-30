@@ -44,3 +44,9 @@ class Alfabeto:
 
     def descreve_reacao(self, re):
         return self.reacoes.get(re, "")
+    
+    def lista_ingredientes(self):
+        print("\tIngredientes na mesa:")
+        for chave, valor in self.ingredientes.items():
+            print(f"{chave}: {valor}")
+        print()
