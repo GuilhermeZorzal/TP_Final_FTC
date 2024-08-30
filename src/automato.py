@@ -21,16 +21,21 @@ class Automato:
             self.erro = True
             return
         saida = regras[ingrediente]
+        print(saida, type(saida))
         if isinstance(saida, dict):
             # Transição de autômato de pilha!
             topo = self.topo_pilha()
-            if topo not in saida:
+            if topo not in saida and "_" not in saida:
                 # Sem transição para o topo atual da pilha; erro
                 self.erro = True
                 return
+            if "_" in saida and "_" != topo:
+                self.pilha.append(topo)
+                topo = "_"
             saida, empilha = saida[topo]
             if empilha != "_":
                 self.pilha.append(empilha)
+            print(self.pilha)
         # Mudamos para o próximo estado!
         self.estado_atual = saida
 
