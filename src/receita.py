@@ -19,7 +19,7 @@ class Regras:
         Insere uma transição de AFD, em que a leitura de um ingrediente
         leva do estado atual para um estado de destino.
         """
-        if ingrediente in self.regras:
+        if ingrediente in self.regras or ingrediente == "_":
             print(f"[!] A transição \"{ingrediente}\" no estado {self.nome_estado} "
                   f"é compatível, por favor verificar determinismo")    
             exit()
@@ -31,27 +31,40 @@ class Regras:
         símbolo no topo da pilha ("desempilha") levam do estado atual para um
         estado de destino, empilhando um símbolo ("empilha")
         """
+        # verificando se a transição é compatível
+        if "_" in self.regras:
+            if desempilha == "_":
+                print(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
+                    f"é compatível com a transição \"_,"
+                    f" {(list(self.regras['_'].keys())[0])} \""
+                    f" no estado {self.nome_estado}\nPor favor verificar determinismo")    
+                exit()
+        if ingrediente in self.regras:
+            if desempilha in self.regras[ingrediente] or desempilha == "_" or "_" in self.regras[ingrediente]:
+                print(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
+                    f"é compatível com a transição \"{ingrediente},"
+                    f" {list(self.regras[ingrediente].keys())[0]} \""
+                    f" no estado {self.nome_estado}\nPor favor verificar determinismo")    
+                exit()
+        elif ingrediente == "_":
+            for ing in self.regras:
+                for des in self.regras[ing]:
+                    if "_" == des:
+                        print(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
+                        f"é compatível com a transição \"{ing}, {des} \","
+                        f" no estado {self.nome_estado}\nPor favor verificar determinismo")    
+                    exit()
         if ingrediente not in self.regras:
             self.regras[ingrediente] = dict()
-        else:
-            print(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
-                  f"é compatível com a transição \"{ingrediente},"
-                  f" {list(self.regras[ingrediente].keys())[0]} /"
-                  f" {self.regras[ingrediente][desempilha][1]}\""
-                  f" no estado {self.nome_estado}\nPor favor verificar determinismo")    
-            exit()
-        if not isinstance(self.regras[ingrediente], dict):
+        elif not isinstance(self.regras[ingrediente], dict):
             # Caso particular meio complicado aqui. Pode ser que uma transição
             # para esse ingrediente tenha sido inserida como AFD. Precisamos
             # converter a posição na lista desse ingrediente em um dicionário
             # antes de mais nada
             estado_destino = self.regras[ingrediente]
             self.regras[ingrediente] = dict()
-            self.regras[ingrediente]["_"] = (estado_destino, "_")
-
+            self.regras[ingrediente]["_"] = (estado_destino, "_")    
         self.regras[ingrediente][desempilha] = (estado_destino, empilha)
-
-
 # A receita nada mais é do que a especificação de um autômato
 class Receita:
     def __init__(self, estados, inicial, finais):

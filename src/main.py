@@ -4,7 +4,7 @@ import leitura as l
 
 def main():
     dir = "poções/"
-    arq_receita = dir + "receitand.txt"
+    arq_receita = dir + "receita1.txt"
     arq_ingredientes = dir + "ingredientes.txt"
     arq_reacoes = dir + "reações.txt"
 
