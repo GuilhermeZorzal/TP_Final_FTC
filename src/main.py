@@ -52,7 +52,7 @@ def main():
             if not sigma.valida_ingrediente(ing):
                 print("Ingrediente não reconhecido...")
                 continue
-        auto.executa_transicao(ing)
+        auto.executa_transicao(ing, sigma)
     print("aceita" if auto.reconheceu() else "rejeita")
 
 # Essa condicional irá executar sempre que esse arquivo for executado

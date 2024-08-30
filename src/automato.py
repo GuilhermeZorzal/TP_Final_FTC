@@ -1,5 +1,5 @@
 from receita import Receita
-
+from alfabeto import Alfabeto
 # Realização dinâmica de um diagrama de estados
 class Automato:
     def __init__(self, receita: Receita):
@@ -13,7 +13,7 @@ class Automato:
         return self.pilha.pop() if self.pilha else "_"
 
     # Executa uma transição
-    def executa_transicao(self, ingrediente):
+    def executa_transicao(self, ingrediente, reacoes: Alfabeto):
         if self.erro: return
         regras = self.receita.estados[self.estado_atual].regras
         if ingrediente not in regras:
@@ -21,7 +21,6 @@ class Automato:
             self.erro = True
             return
         saida = regras[ingrediente]
-        print(saida, type(saida))
         if isinstance(saida, dict):
             # Transição de autômato de pilha!
             topo = self.topo_pilha()
@@ -30,12 +29,15 @@ class Automato:
                 self.erro = True
                 return
             if "_" in saida and "_" != topo:
+                print(f"Mmmmm essa poção parece {reacoes.descreve_reacao(topo)}\n")
                 self.pilha.append(topo)
                 topo = "_"
             saida, empilha = saida[topo]
             if empilha != "_":
+                print(f"Mmmmm essa poção parece {reacoes.descreve_reacao(empilha)}\n")
                 self.pilha.append(empilha)
-            print(self.pilha)
+            if not self.pilha:
+                print(f"A poção parece boa\n")
         # Mudamos para o próximo estado!
         self.estado_atual = saida
 
