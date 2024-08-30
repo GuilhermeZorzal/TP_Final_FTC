@@ -11,10 +11,10 @@ def main():
     else:
         os.system('clear')
     
-    receita = input("Insira o nome da receita desejada\n>> ")
+    nome_receita = input("Insira o nome da receita desejada\n>> ")
     
     dir = "poções/"
-    arq_receita = dir + receita
+    arq_receita = dir + nome_receita + ".txt"
     arq_ingredientes = dir + "ingredientes.txt"
     arq_reacoes = dir + "reações.txt"
 
@@ -53,7 +53,9 @@ def main():
                 print("Ingrediente não reconhecido...")
                 continue
         auto.executa_transicao(ing, sigma)
-    print("aceita" if auto.reconheceu() else "rejeita")
+    nome_receita = nome_receita.replace("_", " ").capitalize()
+    print()
+    print(f"{nome_receita} criada" if auto.reconheceu() else "Falha na mistura")
 
 # Essa condicional irá executar sempre que esse arquivo for executado
 # diretamente. Quando ele for incluído como uma biblioteca (no REPL, por
