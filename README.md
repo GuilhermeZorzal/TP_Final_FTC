@@ -21,3 +21,19 @@ Além disso, na raiz do diretório existe um arquivo chamado `ingredientes.txt`.
 ## Representação de palavra vazia
 
 A representação de palavra vazia será dada por `_`
+
+## Estrutura 
+
+`alfabeto.py` Carrega só o alfabeto de entrada dos arquivos
+
+`leitura.py` = lê o arquivo e carrega receita. ou seja, gera o grafo do automato
+
+`regras.py` possui a classe de transições
+
+## Classes
+
+`Alfabeto` = guarda o alfabeto de entrada
+
+`Receita` = é o grafo do autômato. Guarda o grafo. 
+
+``
