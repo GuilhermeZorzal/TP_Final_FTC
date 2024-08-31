@@ -12,7 +12,7 @@ def carrega_alfabeto(nome_arq, natureza):
             sim = sim.strip()
             desc = desc.strip()
             if len(sim) >= 4 or not sim:
-                print(f"Na linha {num_linha}, lista de {natureza} '{nome_arq}':"
+                print(f"> alfabeto.py: Na linha {num_linha}, lista de {natureza} '{nome_arq}':"
                       "símbolo deve ter entre 1 e 3 caracteres")
                 exit(1)
             alfabeto[sim] = desc
@@ -25,12 +25,12 @@ class Alfabeto:
         try:
             self.ingredientes = carrega_alfabeto(arq_ingredientes, "ingredientes")
         except FileNotFoundError:
-            print(f"[!] Não foi possível abrir o arquivo {arq_ingredientes}")
+            print(f"> alfabeto.py: [!] Não foi possível abrir o arquivo {arq_ingredientes}")
             raise ValueError
         try:
             self.reacoes = carrega_alfabeto(arq_reacoes, "reações")
         except FileNotFoundError:
-            print(f"[!] Não foi possível abrir o arquivo {arq_reacoes}")
+            print(f"> alfabeto.py: [!] Não foi possível abrir o arquivo {arq_reacoes}")
             raise ValueError
 
     def valida_ingrediente(self, ing):

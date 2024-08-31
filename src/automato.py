@@ -44,3 +44,26 @@ class Automato:
     # Checa se a computação foi corretamente concluída
     def reconheceu(self):
         return not self.erro and self.estado_atual in self.receita.finais and not self.pilha
+
+    def run(self, sigma : Alfabeto, nome_receita: str):
+        primeiro = True
+        while True:
+            # Recebe ingrediente
+            if primeiro:
+                ing = input("Insira o símbolo do primeiro ingrediente: ")
+                if not sigma.valida_ingrediente(ing):
+                    print("Ingrediente não reconhecido...")
+                    continue
+                primeiro = False
+            else:
+                resp = input("Deseja inserir mais um ingrediente? (s/n) ")
+                if resp != "s" and resp != "S":
+                    break
+                ing = input("Símbolo do ingrediente: ")
+                if not sigma.valida_ingrediente(ing):
+                    print("Ingrediente não reconhecido...")
+                    continue
+            self.executa_transicao(ing, sigma)
+        nome_receita = nome_receita.replace("_", " ").capitalize()
+        print()
+        print(f"{nome_receita} criada" if self.reconheceu() else "Falha na mistura")

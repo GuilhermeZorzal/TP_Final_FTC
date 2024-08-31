@@ -13,7 +13,7 @@ def carrega_receita(nome_arq, sigma):
         # Leitura dos estados da máquina
         linha_estados = arq.readline().strip()
         if not linha_estados.startswith("Q:"):
-            print(f"[!] Em {nome_arq}: primeira linha deve especificar"
+            print(f"> leitura: [!] Em {nome_arq}: primeira linha deve especificar"
                   " os estados\nFormato: 'Q:' seguido pela lista de estados,"
                   " separados por espaços")
             return None
@@ -22,19 +22,19 @@ def carrega_receita(nome_arq, sigma):
         # Leitura do estado inicial da máquina
         linha_inicial = arq.readline().strip()
         if not linha_inicial.startswith("I:"):
-            print(f"[!] Em {nome_arq}: segunda linha deve especificar o"
+            print(f"> leitura: [!] Em {nome_arq}: segunda linha deve especificar o"
                   " estado inicial\nFormato 'I:' seguido do nome do estado"
                   " inicial")
             return None
         estado_inicial = linha_inicial[2:].lstrip()
         if not estado_inicial in estados:
-            print(f"[!] Em {nome_arq}: estado inicial desconhecido")
+            print(f"> leitura: [!] Em {nome_arq}: estado inicial desconhecido")
             return None
 
         # Leitura dos estados finais da máquina
         linha_finais = arq.readline().strip()
         if not linha_finais.startswith("F:"):
-            print(f"[!] Em {nome_arq}: segunda linha deve especificar"
+            print(f"> leitura: [!] Em {nome_arq}: segunda linha deve especificar"
                   " os estado finais\nFormato 'F' seguido pela lista de"
                   " estados finais, separados por espaços")
             return None
@@ -60,34 +60,34 @@ def carrega_receita(nome_arq, sigma):
             processa_regra(nome_arq, sigma, receita, linha, num_linha)
         return receita
 
-# Processa uma regra
+# Válida a transição e insere a transição na receita, ou seja, no grafo
 def processa_regra(nome_arq, sigma, receita, linha, num_linha):
     ok = True
     # Divisão da transição entre estado de partida e restante
     trans = linha.split("->")
     if len(trans) != 2:
-        print(f"[!] Transição inválida: {linha}", endl="")
+        print(f"> leitura: [!] Transição inválida: {linha}", endl="")
         imprime_formato()
         return
 
     # Validação do estado de partida
     estado_partida = trans[0].strip()
     if estado_partida not in receita.estados:
-        print(f"[!] Em {nome_arq}, linha {num_linha}: estado"
+        print(f"> leitura: [!] Em {nome_arq}, linha {num_linha}: estado"
               f" {estado_partida} desconhecido")
         return
 
     # Divisão do restante em estado de destino e restante
     saida = trans[1].split("|")
     if len(saida) != 2:
-        print(f"[!] Transição inválida: {linha}", endl="")
+        print(f"> leitura: [!] Transição inválida: {linha}", endl="")
         imprime_formato()
         return
 
     # Validação do estado de destino
     estado_destino = saida[0].strip()
     if estado_destino not in receita.estados:
-        print(f"[!] Em {nome_arq}, linha {num_linha}: estado"
+        print(f"> leitura: [!] Em {nome_arq}, linha {num_linha}: estado"
               f"{estado_destino} desconhecido")
         ok = False
 
@@ -105,7 +105,7 @@ def processa_regra(nome_arq, sigma, receita, linha, num_linha):
         ingrediente = entrada[0]
         entrada = entrada[1].split('/', maxsplit=1)
         if len(entrada) == 1:
-            print(f"[!] Em {nome_arq}, linha {num_linha}: transição de"
+            print(f"> leitura: [!] Em {nome_arq}, linha {num_linha}: transição de"
                   " de AP sem propriedade a ser empilhada. Caso deseje"
                   " que nenhuma propriedade seja empilha, use o símbolo '_'")
             imprime_formato()
@@ -114,19 +114,19 @@ def processa_regra(nome_arq, sigma, receita, linha, num_linha):
         # Valida reação a ser desempilhada
         desempilha = entrada[0].strip()
         if not sigma.valida_reacao(desempilha):
-            print(f"[!] Em {nome_arq}, linha {num_linha}:"
+            print(f"> leitura: [!] Em {nome_arq}, linha {num_linha}:"
                   f" reação {desempilha} não reconhecida")
             exit()
 
         # Valida reação a ser empilhada
         empilha = entrada[1].strip()
         if not sigma.valida_reacao(empilha):
-            print(f"[!] Em {nome_arq}, linha {num_linha}:"
+            print(f"> leitura: [!] Em {nome_arq}, linha {num_linha}:"
                   f" reação {empilha} não reconhecida")
             exit()
     # Validação do ingrediente
     if not sigma.valida_ingrediente(ingrediente):
-        print(f"[!] Em {nome_arq}, linha {num_linha}:"
+        print(f"> leitura: [!] Em {nome_arq}, linha {num_linha}:"
               f" ingrediente {entrada} não reconhecido")
         return
     if not ok: return
