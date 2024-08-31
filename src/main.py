@@ -13,7 +13,7 @@ def main():
     
     nome_receita = input("Insira o nome da receita desejada\n>> ")
     
-    dir = "poções/"
+    dir = "../poções/"
     arq_receita = dir + nome_receita + ".txt"
     arq_ingredientes = dir + "ingredientes.txt"
     arq_reacoes = dir + "reações.txt"
