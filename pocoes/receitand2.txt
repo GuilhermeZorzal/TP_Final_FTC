@@ -1,4 +1,5 @@
 Q: I ing1 ing2 ing3 erro F
+S: _ 0 12 15 16 5 
 I: I
 F: F
 I -> ing1 		| a

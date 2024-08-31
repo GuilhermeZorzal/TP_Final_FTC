@@ -65,6 +65,7 @@ class Regras:
             self.regras[ingrediente] = dict()
             self.regras[ingrediente]["_"] = (estado_destino, "_")    
         self.regras[ingrediente][desempilha] = (estado_destino, empilha)
+
 # A receita nada mais é do que a especificação de um autômato
 class Receita:
     def __init__(self, estados, inicial, finais):
