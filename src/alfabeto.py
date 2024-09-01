@@ -1,3 +1,5 @@
+import terminal as te
+
 # Carrega um alfabeto de um arquivo sabendo sua natureza (ingredientes, reações, etc.)
 # Cada entrada no arquivo deve ter a forma <símbolo>:<descrição>
 def carrega_alfabeto(nome_arq, natureza):
@@ -46,7 +48,27 @@ class Alfabeto:
         return self.reacoes.get(re, "")
     
     def lista_ingredientes(self):
-        print("\tIngredientes na mesa:")
+        # Cabeçalhos das colunas
+        cabecalho = ["Símbolo", "Ingrediente"]
+
+        # Comprimento máximo de cada coluna
+        largura_simbolo = max(len(cabecalho[0]), max(len(chave) for chave in self.ingredientes.keys()))
+        largura_ingrediente = max(len(cabecalho[1]), max(len(valor) for valor in self.ingredientes.values()))
+        largura_total = largura_simbolo + largura_ingrediente + 7
+
+        # Titulo
+        print(te.magenta(f"+{'-' * (largura_total - 2)}+"))
+        print(te.magenta(f"| {'Ingredientes na mesa:'.center(largura_total - 4)} |"))
+
+        # Cabeçalho
+        print(te.magenta(f"+{'-' * (largura_total - 2)}+"))
+        print(te.magenta(f"| {'Símbolo'.center(largura_simbolo)} | {'Ingrediente'.center(largura_ingrediente)} |"))
+        print(te.magenta(f"+{'-' * (largura_simbolo + 2)}+{'-' * (largura_ingrediente + 2)}+"))
+
+        # Ingredientes 
         for chave, valor in self.ingredientes.items():
-            print(f"{chave}: {valor}")
+            print(te.magenta(f"| {chave.center(largura_simbolo)} | {valor.ljust(largura_ingrediente)} |"))
+
+        
+        print(te.magenta(f"+{'-' * (largura_total - 2)}+"))
         print()

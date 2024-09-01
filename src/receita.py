@@ -1,3 +1,4 @@
+import terminal as te
 # Regras de transição para um único estado
 class Regras:
     def __init__(self, nome):
@@ -20,8 +21,8 @@ class Regras:
         leva do estado atual para um estado de destino.
         """
         if ingrediente in self.regras or ingrediente == "_":
-            print(f"[!] A transição \"{ingrediente}\" no estado {self.nome_estado} "
-                  f"é compatível, por favor verificar determinismo")    
+            print(te.red(f"[!] A transição \"{ingrediente}\" no estado {self.nome_estado} "
+                  f"é compatível, por favor verificar determinismo"))  
             exit()
         self.regras[ingrediente] = estado_destino
 
@@ -34,25 +35,25 @@ class Regras:
         # verificando se a transição é compatível
         if "_" in self.regras:
             if desempilha == "_":
-                print(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
+                print(te.red(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
                     f"é compatível com a transição \"_,"
                     f" {(list(self.regras['_'].keys())[0])} \""
-                    f" no estado {self.nome_estado}\nPor favor verificar determinismo")    
+                    f" no estado {self.nome_estado}\nPor favor verificar determinismo")    )
                 exit()
         if ingrediente in self.regras:
             if desempilha in self.regras[ingrediente] or desempilha == "_" or "_" in self.regras[ingrediente]:
-                print(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
+                print(te.red(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
                     f"é compatível com a transição \"{ingrediente},"
                     f" {list(self.regras[ingrediente].keys())[0]} \""
-                    f" no estado {self.nome_estado}\nPor favor verificar determinismo")    
+                    f" no estado {self.nome_estado}\nPor favor verificar determinismo")    )
                 exit()
         elif ingrediente == "_":
             for ing in self.regras:
                 for des in self.regras[ing]:
                     if "_" == des:
-                        print(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
+                        print(te.red(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
                         f"é compatível com a transição \"{ing}, {des} \","
-                        f" no estado {self.nome_estado}\nPor favor verificar determinismo")    
+                        f" no estado {self.nome_estado}\nPor favor verificar determinismo")    )
                     exit()
         if ingrediente not in self.regras:
             self.regras[ingrediente] = dict()
@@ -81,15 +82,19 @@ class Receita:
 
     def imprime(self):
         for estado in self.estados:
-            print(estado)
+            print(te.magenta(f"Estado: {estado}"))
+            print(te.magenta("Transições:"))
+
             for ing, saida in self.estados[estado].regras.items():
                 if not isinstance(saida, dict):
                     # Transição de AF: simples e direta
-                    print(f"\t{ing} -> {saida}")
+                    print(te.green(f"\tEntrada: {ing}"), te.white("-->"), te.magenta(f"{saida}"))
                     continue
+                
                 # Múltiplas transições de AP
                 for desempilha, (estado_destino, empilha) in saida.items():
-                    print(f"\t{ing}, {desempilha} -> {estado_destino} / {empilha}")
-            print()
+                    print(te.green(f"\tEntrada: {ing}"), te.blue(f", {desempilha}"), te.white("-->"), te.magenta(f"{estado_destino}"), te.white("/"), te.cyan(f"{empilha}"))            
+           
+            print(te.magenta("-" * 30))
 
     

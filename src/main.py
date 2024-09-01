@@ -36,7 +36,7 @@ def run_case1(sigma):
     
     while True:
         if primeiro:
-            ing = input(te.yellow("Insira o símbolo do primeiro ingrediente: "))
+            ing = input(te.yellow("\n\nInsira o símbolo do primeiro ingrediente: "))
             if not sigma.valida_ingrediente(ing):
                 print(te.red("Ingrediente não reconhecido...\nEstado I"))
                 sound_game_over()  # Toca o som de game over para ingredientes inválidos
