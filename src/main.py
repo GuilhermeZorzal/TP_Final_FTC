@@ -11,12 +11,12 @@ def main():
     else:
         os.system('clear')
     
-    nome_receita = input("Insira o nome da receita desejada\n>> ")
+    nome_receita = input("Insira o nome da receita desejada (sem .txt)\n>> ")
     
-    dir = "poções/"
+    dir = "pocoes/"
     arq_receita = dir + nome_receita + ".txt"
     arq_ingredientes = dir + "ingredientes.txt"
-    arq_reacoes = dir + "reações.txt"
+    arq_reacoes = dir + "reacoes.txt"
 
     try:
         # Criação do alfabeto pode falhar, se um dos arquivos não existir.
@@ -24,7 +24,9 @@ def main():
         # comportamento; inicializadores que leem arquivos e lançam exceções
         # são um pouco estranhos. Mas funciona
         sigma = s.Alfabeto(arq_ingredientes, arq_reacoes)
-    except: exit(1)
+    except Exception as e:
+        print(f"> alfabeto.py: [!] Erro ao criar o alfabeto. Erro: {e}")
+        exit(1)
 
     receita = l.carrega_receita(arq_receita, sigma)
     if receita is not None:
