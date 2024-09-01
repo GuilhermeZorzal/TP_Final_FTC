@@ -13,14 +13,14 @@ def sound_pocao_criada():
     
     sound = pygame.mixer.Sound("sound/pocao_criada.wav")
     sound.play()   
-    pygame.time.wait(2000)  # Espera 2 segundos para garantir que os sons sejam ouvidos
+    pygame.time.wait(5000)  # Espera 2 segundos para garantir que os sons sejam ouvidos
     
 def sound_add_ingrediente():
     pygame.mixer.init()
     
     sound = pygame.mixer.Sound("sound/ingrediente.mp3")
     sound.play()   
-    pygame.time.wait(2000)  # Espera 2 segundos para garantir que os sons sejam ouvidos
+    pygame.time.wait(5000)  # Espera 2 segundos para garantir que os sons sejam ouvidos
     
     
 def sound_background():

@@ -5,44 +5,53 @@ import os
 import platform
 import mealy as m
 from sound import sound_game_over, sound_pocao_criada, sound_add_ingrediente, sound_background, stop_background_sound
-from terminal import print_title, print_menu
+import terminal as te
 
 # Antes de tudo rode o comando pip install pygame
 
 def run_case1(sigma):
-    nome_receita = input("Insira o nome da receita desejada (sem .txt)\n>> ")
-    dir = "pocoes/"
-    arq_receita = dir + nome_receita + ".txt"
-    
-    receita = l.carrega_receita(arq_receita, sigma)
+    while 1:
+        nome_receita = input(te.blue("Insira o nome da receita desejada (sem .txt)\n>> "))
+        dir = "pocoes/"
+        arq_receita = dir + nome_receita + ".txt"
+        try:
+            receita = l.carrega_receita(arq_receita, sigma)
+            break
+        except Exception as e:
+            print(te.red(f"[!] Erro ao carregar a receita. Erro: {e}"))
+            continue
+        
     if receita is not None:
-        print(f"Receita lida do arquivo {dir}{arq_receita}\n")
-        if input("Deseja ver a receita? [s/n]\n>> ") == 's':
+        print(te.yellow(f"Receita lida do arquivo {dir}{arq_receita}\n"))
+        if input(te.blue("Deseja ver a receita? [s/n]\n>> ")) == 's':
             receita.imprime()
         
-    if input("Deseja ver os ingredientes disponíveis? [s/n]\n>> ") == 's':
+    if input(te.blue("Deseja ver os ingredientes disponíveis? [s/n]\n>> ")) == 's':
         sigma.lista_ingredientes()
     
     primeiro = True
     auto = a.Automato(receita)
     
+    te.print_criandoPoceos()
+    
     while True:
         if primeiro:
-            ing = input("Insira o símbolo do primeiro ingrediente: ")
+            ing = input(te.yellow("Insira o símbolo do primeiro ingrediente: "))
             if not sigma.valida_ingrediente(ing):
-                print("Ingrediente não reconhecido...\nI")
+                print(te.red("Ingrediente não reconhecido...\nEstado I"))
                 sound_game_over()  # Toca o som de game over para ingredientes inválidos
                 continue
             primeiro = False
         else:
-            resp = input("Deseja inserir mais um ingrediente? (s/n) ")
+            resp = input(te.green("\nDeseja inserir mais um ingrediente? (s/n) "))
             if resp.lower() != "s":
                 break
-            ing = input("Símbolo do ingrediente: ")
+            ing = input(te.yellow("Símbolo do ingrediente: "))
             if not sigma.valida_ingrediente(ing):
-                print("Ingrediente não reconhecido...\nI")
+                print(te.red("Ingrediente não reconhecido...\nEstado I"))
                 sound_game_over()  # Toca o som de game over para ingredientes inválidos
                 continue
+            
         auto.executa_transicao(ing, sigma)
         sound_add_ingrediente()  # Toca o som quando um ingrediente é adicionado
     
@@ -52,8 +61,9 @@ def run_case1(sigma):
         print(f"{nome_receita} criada")
         sound_pocao_criada()  # Toca o som quando a poção é criada
     else:
-        print("Falha na mistura")
+        te.print_perde()
         sound_game_over()  # Toca o som de game over se a mistura falhar
+        exit(1)
 
 def main():
     sound_background()  # Começa a música de fundo
@@ -63,10 +73,10 @@ def main():
     else:
         os.system('clear')
 
-    print_title()
-    print_menu()
+    te.print_title()
+    te.print_menu()
     
-    resp = int(input("Escolha uma opção:\n>> "))
+    resp = int(input(te.blue("Escolha uma opção:\n>> ")))
 
     dir = "pocoes/"
     arq_ingredientes = dir + "ingredientes.txt"
@@ -85,6 +95,7 @@ def main():
             mealy = m.Mealy()
             mealy.run(sigma)
 
+    te.print_fim() 
     # Para a música de fundo ao final
     stop_background_sound()
 
