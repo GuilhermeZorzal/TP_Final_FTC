@@ -45,8 +45,56 @@ def print_menu():
     +------------------------------------+
     |    1 - Automato Deterministico     |
     |    2 - Máquina de Mealy            |
+    |    3 - Sair                        |
     +------------------------------------+
     OBS: Tipo do Automato Deterministico é determinado pela entrada ;)
     '''
     print(blue("Qual tipo de autômato deseja inserir?"))
     print(blue(menu_art))
+
+def print_corvo():
+    corvo_art = '''
+         .---.        .-----------
+     /     \  __  /    ------
+    / /     \(  )/    -----
+   //////   ' \/ `   ---
+  //// / // :    : ---
+ // /   /  /`    '--
+//          //..\\
+       ====UU====UU====
+           '//||\\`
+             ''``                   
+    '''
+    print(cyan(corvo_art))
+
+def corvo_poderoso():
+    
+# Original ASCII art with potential special combinations
+    corvo_art = """
+                (                           )
+          ) )( (                           ( ) )( (
+       ( ( ( )  ) )                     ( (   (  ) )(
+      ) )     ,,l                     ///,,       ) (
+   (  ((    (l//                     l////)      )
+    ) )    (-(__//                       l__)-)     (
+   (((   ((-(__||                         ||__)-))    ) )
+  ) )   ((-(-(_||           ```l__        ||_)-)-))   ((
+  ((   ((-(-(/(/l        ''; 9.- `      //l)l)-)-))    )
+   )   (-(-(/(/(/l      '';;;;-l~      //l)l)l)-)-)   (   )
+(  (   ((-(-(/(/(/l======,:;:;:;:,======/l)l)l)-)-))   )
+    )  '(((-(/(/(/(//////:\%\%\%\%\%\%\%:l)l)l)l)-)))`  ( (
+   ((   '((-(/(/(/('uuuu:WWWWWWWWW:uuuu`)l)l)l)-))`    )
+     ))  '((-(/(/(/('|||:wwwwwwwww:|||')l)l)l)-))`    ((
+  (   ((   '((((/(/('uuu:WWWWWWWWW:uuu`)l)l))))`     ))
+        ))   '':::UUUUUU:wwwwwwwww:UUUUUU:::``     ((   )
+          ((      '''''''luuuuuuuu/``````         ))
+            ))            `JJJJJJJJJ`           ((
+             ((            LLLLLLLLLLL         ))
+               ))         ///|||||||l       ((
+                 ))      (/(/(/(^)l)l)l)       ((
+                   ((                           ))
+                     ((                       ((
+                       ( )( ))( ( ( ) )( ) (()
+"""
+
+    print(red(corvo_art))

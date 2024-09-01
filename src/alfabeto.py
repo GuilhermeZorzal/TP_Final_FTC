@@ -25,12 +25,12 @@ class Alfabeto:
         try:
             self.ingredientes = carrega_alfabeto(arq_ingredientes, "ingredientes")
         except FileNotFoundError as e:
-            print(f"[!] Não foi possível abrir o arquivo {arq_ingredientes}. Erro: {e}")
+            print(f"> alfabeto: [!] Não foi possível abrir o arquivo {arq_ingredientes}. Erro: {e}")
             raise ValueError
         try:
             self.reacoes = carrega_alfabeto(arq_reacoes, "reações")
         except FileNotFoundError as e:
-            print(f"[!] Não foi possível abrir o arquivo {arq_reacoes}. Erro: {e}")
+            print(f"> alfabeto: [!] Não foi possível abrir o arquivo {arq_reacoes}. Erro: {e}")
             raise ValueError
 
     def valida_ingrediente(self, ing):

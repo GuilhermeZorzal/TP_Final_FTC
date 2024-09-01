@@ -6,12 +6,18 @@ import platform
 import mealy as m
 from sound import sound_game_over, sound_pocao_criada, sound_add_ingrediente, sound_background, stop_background_sound
 from terminal import print_title, print_menu
+dir = ''
+if platform.system() == "Windows":
+    dir = '../pocoes/'
+    os.system('cls')
+else:
+    dir = 'pocoes/'
+    os.system('clear')
 
 # Antes de tudo rode o comando pip install pygame
 
 def run_case1(sigma):
     nome_receita = input("Insira o nome da receita desejada (sem .txt)\n>> ")
-    dir = "pocoes/"
     arq_receita = dir + nome_receita + ".txt"
     
     receita = l.carrega_receita(arq_receita, sigma)
@@ -64,28 +70,31 @@ def main():
         os.system('clear')
 
     print_title()
-    print_menu()
-    
-    resp = int(input("Escolha uma opção:\n>> "))
+    while (True):
 
-    dir = "pocoes/"
-    arq_ingredientes = dir + "ingredientes.txt"
-    arq_reacoes = dir + "reacoes.txt"
+        print_menu()
+        
+        resp = int(input("Escolha uma opção:\n>> "))
 
-    try:
-        sigma = s.Alfabeto(arq_ingredientes, arq_reacoes)
-    except Exception as e:
-        print(f"> alfabeto.py: [!] Erro ao criar o alfabeto. Erro: {e}")
-        exit(1)
+        arq_ingredientes = dir + "ingredientes.txt"
+        arq_reacoes = dir + "reacoes.txt"
 
-    match resp:
-        case 1:
-            run_case1(sigma)
-        case 2:
-            mealy = m.Mealy()
-            mealy.run(sigma)
+        try:
+            sigma = s.Alfabeto(arq_ingredientes, arq_reacoes)
+        except Exception as e:
+            print(f"> alfabeto.py: [!] Erro ao criar o alfabeto. Erro: {e}")
+            exit(1)
 
-    # Para a música de fundo ao final
+        match resp:
+            case 1:
+                run_case1(sigma)
+            case 2:
+                mealy = m.Mealy()
+                mealy.run(sigma)
+            case 3:
+                break
+
+        # Para a música de fundo ao final
     stop_background_sound()
 
 if __name__ == "__main__":
