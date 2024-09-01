@@ -1,0 +1,10 @@
+Q: I ing1 ing2 ing3 ing4 erro F
+I: I
+F: F
+I -> ing1       | alh, _ / _
+ing1 -> ing2    | sal, _ / _
+ing2 -> ing3    | gam, _ / _
+ing3 -> ing4    | sal, _ / _
+ing4 -> F       | alh, _ / _
+ing4 -> erro    | gam, _ / biz
+F -> erro       | o, _ / s
