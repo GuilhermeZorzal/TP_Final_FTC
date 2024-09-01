@@ -3,6 +3,7 @@ import alfabeto as s
 import leitura as l
 import os
 import platform
+import mealy as m
 
 
 def main():
@@ -36,8 +37,16 @@ def main():
             sigma.lista_ingredientes()
     
     # Executa o automato, realizando as transições
-    automato = a.Automato(receita)
 
+    resp = int(input("Qual tipo de máquina você deseja usar?\n1 - Automato Determinístico(tipo é determinado pela entrada)\n2 - Máquina de Mealy \n>> "))
+
+    match resp:
+        case 1:
+            automato = a.Automato(receita)  
+            automato.run(sigma, nome_receita)
+        case 2:
+            mealy = m.Mealy(receita)
+            mealy.run(sigma)
 
     automato.run(sigma, nome_receita)
 

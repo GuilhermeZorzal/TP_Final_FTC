@@ -2,13 +2,13 @@ dan : fio de cabelo do Daniel
 sap : pele seca de sapo cururu
 olh : olho de marmota africana
 jub : uma jujubinha
-gam : extrato defumado de chulé de gamba
+gam : extrato defumado de chule de gamba
 alh : alho
 sal : sal
 cas : casca de carvalho envelhecido
 cob : veneno de cobra
-ftc : uma página do livro de FTC
+ftc : uma pagina do livro de FTC
 o   : ovo
-p   : pétala
-a   : água
-lst : lágrima de estudante
+p   : petala
+a   : agua
+lst : lagrima de estudante
