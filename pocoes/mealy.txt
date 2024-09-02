@@ -1,14 +1,14 @@
-dan : Um dos artefatos mais poderosos do seu inventário foi colocado na poção |0|100|
-sap : A poção passa a assobiar quando tem frio |2|2|
-olh : Você tem um leve vislumbre da África na superfície da poção que rapidamente desaparece |0|2|
-jub : A poção ficou levemente mais doce |12|0|
-gam : A poção fica intragável e terrivelmente mal cheirosa |-100|0|
-alh : A poção exala um cheiro de tempero delicioso |5|5|
-sal : A poção fica mais bem temperada |5|0|
-cas : A poção fica com sabor amadeirado |3|0|
-cob : A poção solta uma fumaça esverdeada e fica com um aspecto mortal |2|15|
-ftc : A poção fica poderosa, invocando o poder dos autômatos primordiais |0|40|
-o   : Ao colocar o ovo ele cozinha devido a temperatura do caldeirão |10|0|
-p   : A poção fica levemente rosada |0|2|
-a   : Você colocou água na poção e nada acontece |0|0|
-lst : Um pouco de sal, desespero, tristeza e cansaço foram adicionados |0|20|
+dan : Um dos artefatos mais poderosos do seu inventario foi colocado na pocao |0|100|
+sap : A pocao passa a assobiar quando tem frio |2|2|
+olh : Voce tem um leve vislumbre da Africa na superficie da pocao que rapidamente desaparece |0|2|
+jub : A pocao ficou levemente mais doce |12|0|
+gam : A pocao fica intragavel e terrivelmente mal cheirosa |-100|0|
+alh : A pocao exala um cheiro de tempero delicioso |5|5|
+sal : A pocao fica mais bem temperada |5|0|
+cas : A pocao fica com sabor amadeirado |3|0|
+cob : A pocao solta uma fumaca esverdeada e fica com um aspecto mortal |2|15|
+ftc : A pocao fica poderosa, invocando o poder dos automatos primordiais |0|40|
+o   : Ao colocar o ovo ele cozinha devido a temperatura do caldeirao |10|0|
+p   : A pocao fica levemente rosada |0|2|
+a   : Voce colocou agua na pocao e nada acontece |0|0|
+lst : Um pouco de sal, desespero, tristeza e cansaco foram adicionados |0|20|
