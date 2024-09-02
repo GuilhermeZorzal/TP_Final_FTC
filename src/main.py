@@ -46,7 +46,6 @@ def run_case1(sigma):
         else:
             resp = input(te.green("\nDeseja inserir mais um ingrediente? (s/n) "))
             if resp.lower() != "s":
-                print("sai")
                 break
             ing = input(te.yellow("Símbolo do ingrediente: "))
             if not sigma.valida_ingrediente(ing):
@@ -87,7 +86,7 @@ def main():
         try:
             sigma = s.Alfabeto(arq_ingredientes, arq_reacoes)
         except Exception as e:
-            print(f"> alfabeto.py: [!] Erro ao criar o alfabeto. Erro: {e}")
+            print(f"> main.py: [!] Erro ao criar o alfabeto. Erro: {e}")
             exit(1)
 
         match resp:
