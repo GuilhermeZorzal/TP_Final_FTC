@@ -5,7 +5,8 @@ import os
 import platform
 import mealy as m
 from sound import sound_game_over, sound_pocao_criada, sound_add_ingrediente, sound_background, stop_background_sound
-from terminal import print_title, print_menu
+import terminal as te
+
 dir = ''
 if platform.system() == "Windows":
     dir = '../pocoes/'
@@ -13,14 +14,12 @@ if platform.system() == "Windows":
 else:
     dir = 'pocoes/'
     os.system('clear')
-import terminal as te
 
 
-# Antes de tudo rode o comando pip install pygame
 
 def run_case1(sigma):
     while 1:
-        nome_receita = input(te.blue("Insira o nome da receita desejada (sem .txt)\n>> "))
+        nome_receita = input(te.blue("\nInsira o nome da receita desejada (sem .txt)\n>> "))
         arq_receita = dir + nome_receita + ".txt"
         try:
             receita = l.carrega_receita(arq_receita, sigma)
@@ -47,7 +46,7 @@ def run_case1(sigma):
             ing = input(te.yellow("\n\nInsira o símbolo do primeiro ingrediente: "))
             if not sigma.valida_ingrediente(ing):
                 print(te.red("Ingrediente não reconhecido...\nEstado I"))
-                sound_game_over()  # Toca o som de game over para ingredientes inválidos
+                sound_game_over() 
                 continue
             primeiro = False
         else:
@@ -57,24 +56,24 @@ def run_case1(sigma):
             ing = input(te.yellow("Símbolo do ingrediente: "))
             if not sigma.valida_ingrediente(ing):
                 print(te.red("Ingrediente não reconhecido...\nEstado I"))
-                sound_game_over()  # Toca o som de game over para ingredientes inválidos
+                sound_game_over() 
                 continue
             
         auto.executa_transicao(ing, sigma)
-        sound_add_ingrediente()  # Toca o som quando um ingrediente é adicionado
+        sound_add_ingrediente() 
     
     nome_receita = nome_receita.replace("_", " ").capitalize()
     print()
     if auto.reconheceu():
         print(f"{nome_receita} criada")
-        sound_pocao_criada()  # Toca o som quando a poção é criada
+        sound_pocao_criada() 
     else:
         te.print_perde()
-        sound_game_over()  # Toca o som de game over se a mistura falhar
+        sound_game_over()
         exit(1)
 
 def main():
-    sound_background()  # Começa a música de fundo
+    sound_background()
     
     if platform.system() == "Windows":
         os.system('cls')
@@ -86,7 +85,7 @@ def main():
 
         te.print_menu()
         
-        resp = int(input("Escolha uma opção:\n>> "))
+        resp = int(input(te.cyan("Escolha uma opção:\n>> ")))
 
         arq_ingredientes = dir + "ingredientes.txt"
         arq_reacoes = dir + "reacoes.txt"
@@ -105,9 +104,11 @@ def main():
                 mealy.run(sigma)
             case 3:
                 break
+            case default:
+                print(te.red("[!] Opção inválida. Tente novamente."))
+                continue
 
     te.print_fim() 
-    # Para a música de fundo ao final
     stop_background_sound()
 
 if __name__ == "__main__":

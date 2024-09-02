@@ -1,33 +1,44 @@
 import pygame
+import os
+import platform
+
+dir = ''
+if platform.system() == "Windows":
+    dir = '../sound/'
+    os.system('cls')
+else:
+    dir = 'sound/'
+    os.system('clear')
+
 
 def sound_game_over():
     pygame.mixer.init()
 
-    sound = pygame.mixer.Sound("../sound/game_over.mp3")
+    sound = pygame.mixer.Sound(dir+"game_over.mp3")
     sound.play()
-    pygame.time.wait(5000)  # Espera 2 segundos para garantir que os sons sejam ouvidos
+    pygame.time.wait(5000)  
     
 
 def sound_pocao_criada():
     pygame.mixer.init()
     
-    sound = pygame.mixer.Sound("../sound/pocao_criada.wav")
+    sound = pygame.mixer.Sound(dir+"pocao_criada.wav")
     sound.play()   
-    pygame.time.wait(5000)  # Espera 2 segundos para garantir que os sons sejam ouvidos
+    pygame.time.wait(5000)  
     
 def sound_add_ingrediente():
     pygame.mixer.init()
     
-    sound = pygame.mixer.Sound("../sound/ingrediente.mp3")
+    sound = pygame.mixer.Sound(dir+"ingrediente.mp3")
     sound.play()   
-    pygame.time.wait(4500)  # Espera 2 segundos para garantir que os sons sejam ouvidos
+    pygame.time.wait(4500)  
     
     
 def sound_background():
     pygame.mixer.init()
     
-    pygame.mixer.music.load("../sound/background.mp3")
-    pygame.mixer.music.set_volume(0.5)  # Ajusta o volume da música
+    pygame.mixer.music.load(dir+"background.mp3")
+    pygame.mixer.music.set_volume(0.5)  
     pygame.mixer.music.play(-1) 
     
 def stop_background_sound():

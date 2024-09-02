@@ -46,7 +46,8 @@ def print_menu():
     |  "Qual tipo de autômato deseja inserir?" |
     |------------------------------------------|
     |      1 - Automato Deterministico         |
-    |       2 - Máquina de Mealy               |
+    |        2 - Máquina de Mealy              |
+    |              3 - Sair                    |
     +------------------------------------------+
     
     '''
