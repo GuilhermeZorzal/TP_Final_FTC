@@ -4,7 +4,7 @@ import leitura as l
 import os
 import platform
 import mealy as m
-from sound import sound_game_over, sound_pocao_criada, sound_add_ingrediente, sound_background, stop_background_sound
+from sound import sound_game_over, sound_pocao_criada, sound_add_ingrediente, sound_background, stop_background_sound, sound_end
 import terminal as te
 
 dir = 'pocoes/'
@@ -107,6 +107,7 @@ def main():
 
     te.print_fim() 
     stop_background_sound()
+    sound_end()
 
 if __name__ == "__main__":
     main()
