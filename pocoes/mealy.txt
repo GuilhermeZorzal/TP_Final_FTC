@@ -1,14 +1,14 @@
-dan : Um dos artefatos mais poderosos do seu inventario foi colocado na pocao |0|100|
-sap : A pocao passa a assobiar quando tem frio |2|2|
-olh : Voce tem um leve vislumbre da Africa na superficie da pocao que rapidamente desaparece |0|2|
-jub : A pocao ficou levemente mais doce |12|0|
-gam : A pocao fica intragavel e terrivelmente mal cheirosa |-100|0|
-alh : A pocao exala um cheiro de tempero delicioso |5|5|
-sal : A pocao fica mais bem temperada |5|0|
-cas : A pocao fica com sabor amadeirado |3|0|
-cob : A pocao solta uma fumaca esverdeada e fica com um aspecto mortal |2|15|
-ftc : A pocao fica poderosa, invocando o poder dos automatos primordiais |0|40|
-o   : Ao colocar o ovo ele cozinha devido a temperatura do caldeirao |10|0|
-p   : A pocao fica levemente rosada |0|2|
-a   : Voce colocou agua na pocao e nada acontece |0|0|
-lst : Um pouco de sal, desespero, tristeza e cansaco foram adicionados |0|20|
+dan : um dos artefatos mais poderosos do seu inventario foi colocado na pocao. O nivel de poder da pocao cresceu muito!!! |0|100|
+sap : a pocao passa a assobiar quando tem frio. A pocao ficou um pouquinho mais gostosa e poderosa |2|2|
+olh : voce tem um leve vislumbre da africa na superficie da pocao que rapidamente desaparece. O sabor da pocao quase nao aumenta |0|2|
+jub : a pocao ficou levemente mais doce. O sabor da pocao aumentou significativamente |12|0|
+gam : a pocao fica intragavel e terrivelmente mal cheirosa |-100|0|
+alh : a pocao exala um cheiro de tempeiro delicioso. O sabor e o poder da pocao aumentam |5|5|
+sal : a pocao fica mais bem temperado. O sabor da pocao aumenta |5|0|
+cas : a pocao fica com sabor amadeirado. A pocao fica um pouco mais bem temperada |3|0|
+cob : a pocao solta uma fumaca esverdeada e fica com um aspecto mortal. O poder da pocao aumentou |2|15|
+ftc : a pocao fica poderosa, invocando o poder dos automatos primordiais. O nivel de poder da pocao cresce consideravelmente |0|40|
+o   : ao colocar o ovo ele cozinha devido a temperatura do caldeirao. O sabor da pocao melhora bastante |10|0|
+p   : a pocao fica levemente rosada. O poder da pocao sobe tanto quanto o peso de uma petala |0|2|
+a   : voce colocou agua na pocao e nada acontece |0|0|
+lst : um pouco de sal, desespero, tristeza e cansaco foram adicionados. O poder de centenas de estudantes reside agora na pocao |0|20|
