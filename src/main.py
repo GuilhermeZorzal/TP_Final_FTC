@@ -52,6 +52,7 @@ def run_case1(sigma):
         else:
             resp = input(te.green("\nDeseja inserir mais um ingrediente? (s/n) "))
             if resp.lower() != "s":
+                print("sai")
                 break
             ing = input(te.yellow("Símbolo do ingrediente: "))
             if not sigma.valida_ingrediente(ing):
@@ -70,7 +71,6 @@ def run_case1(sigma):
     else:
         te.print_perde()
         sound_game_over()
-        exit(1)
 
 def main():
     sound_background()
@@ -107,6 +107,10 @@ def main():
             case default:
                 print(te.red("[!] Opção inválida. Tente novamente."))
                 continue
+            
+        op = input(te.blue("Deseja criar outra poção? [s/n]\n>> "))
+        if  op != 's':
+            break
 
     te.print_fim() 
     stop_background_sound()
