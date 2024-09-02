@@ -25,6 +25,25 @@ def sound_add_ingrediente():
     sound = pygame.mixer.Sound(dir+"ingrediente.mp3")
     sound.play()   
     pygame.time.wait(4500)  
+
+def sound_corvo_win():
+    pygame.mixer.init()
+    
+    sound = pygame.mixer.Sound(dir+"corvo_win.mp3")
+    sound.play()   
+    pygame.time.wait(4500)  
+
+def sound_corvo():
+    pygame.mixer.init()
+    
+    sound = pygame.mixer.Sound(dir+"corvo.mp3")
+    sound.play()   
+    pygame.time.wait(4500)  
+    return sound
+    
+def stop_corvo_sound(sound):
+    if sound:
+        sound.stop()
     
     
 def sound_background():

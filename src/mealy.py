@@ -3,7 +3,7 @@ from alfabeto import Alfabeto
 import time
 import os
 import platform
-from sound import sound_add_ingrediente, sound_game_over, sound_pocao_criada
+from sound import sound_add_ingrediente, sound_corvo_win, sound_corvo, stop_corvo_sound
 import terminal as te  
 
 
@@ -53,6 +53,7 @@ class Mealy:
             poder += int(self.descricoes[ing][2])
 
         clean()
+        sCorvo = sound_corvo()
 
         for i in range(4):
             print(te.yellow("O corvo provador pegou uma colherada e está avaliando o sabor" + "." * i))
@@ -75,14 +76,17 @@ class Mealy:
 
         if poder >= 400:
             print(te.magenta("A poção é muito poderosa. O poder do corvo provador ultrapassa seu próprio poder! Ele pega o caldeirão com as próprias garras e sai voando com ele pela janela!!!"))
+            stop_corvo_sound(sCorvo)
+            
             te.corvo_poderoso()
+            sound_corvo_win()
             input(te.green("Aperte enter para continuar"))
             clean()
             return
 
         te.print_corvo()
-        self.avalia_sabor(sabor)
-        self.avalia_poder(poder)
+        self.avalia_sabor(sabor, sCorvo)
+        self.avalia_poder(poder, sCorvo)
         input(te.green("Aperte enter para continuar"))
         clean()
 
@@ -102,8 +106,7 @@ class Mealy:
         for ing in self.descricoes:
             print(te.blue(f"{ing}: {self.descricoes[ing][0]}"))
 
-    def avalia_sabor(self, sabor):
-        print(te.blue("\n" + "="*50 + "\n"))
+    def avalia_sabor(self, sabor, sCorvo):
         for i in range(4):
             print(te.magenta("O corvo provador está avaliando o sabor da poção"+ "." * i))
             time.sleep(0.5)
@@ -121,10 +124,11 @@ class Mealy:
             print(te.red("👨‍🍳 O corvo provador disse que você deveria largar a bruxaria e virar chefe de cozinha. A poção está fantástica!"))
 
         print(te.blue("\n" + "="*50 + "\n"))
+        stop_corvo_sound(sCorvo)
         time.sleep(0.8)
         
 
-    def avalia_poder(self, poder):
+    def avalia_poder(self, poder, sCorvo):
         print(te.cyan("\n\n" + "="*50 + "\n"))
         
         for i in range(4):
@@ -145,6 +149,7 @@ class Mealy:
             print(te.green("🌟 O corvo provador está maravilhado com o poder da poção e a considera lendária!"))
 
         print(te.cyan("\n" + "="*50 + "\n"))
+        stop_corvo_sound(sCorvo)
         time.sleep(0.8)
         
 
