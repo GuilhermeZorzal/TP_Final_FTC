@@ -1,5 +1,11 @@
 import terminal as te
 # Regras de transição para um único estado
+class ErroTransicao(Exception):
+    print(te.red("\nPor favor verificar determinismo"))
+
+def verifica_determinsmo(numero):
+    raise ErroTransicao("Verificar determinismo")
+
 class Regras:
     def __init__(self, nome):
         self.regras = dict()
@@ -22,8 +28,10 @@ class Regras:
         """
         if ingrediente in self.regras or ingrediente == "_":
             print(te.red(f"[!] A transição \"{ingrediente}\" no estado {self.nome_estado} "
-                  f"é compatível, por favor verificar determinismo"))  
-            exit()
+                  f"é compatível"))  
+            raise ErroTransicao("Não é deterministico")
+
+            # exit()
         self.regras[ingrediente] = estado_destino
 
     def insere_apd(self, estado_destino, ingrediente, desempilha, empilha):
@@ -38,23 +46,29 @@ class Regras:
                 print(te.red(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
                     f"é compatível com a transição \"_,"
                     f" {(list(self.regras['_'].keys())[0])} \""
-                    f" no estado {self.nome_estado}\nPor favor verificar determinismo")    )
-                exit()
+                    f" no estado {self.nome_estado}")    )
+                raise ErroTransicao("Não é deterministico")
+                
+                # exit()
         if ingrediente in self.regras:
             if desempilha in self.regras[ingrediente] or desempilha == "_" or "_" in self.regras[ingrediente]:
                 print(te.red(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
                     f"é compatível com a transição \"{ingrediente},"
                     f" {list(self.regras[ingrediente].keys())[0]} \""
-                    f" no estado {self.nome_estado}\nPor favor verificar determinismo")    )
-                exit()
+                    f" no estado {self.nome_estado}")    )
+                raise ErroTransicao("Não é deterministico")
+                
+                # exit()
         elif ingrediente == "_":
             for ing in self.regras:
                 for des in self.regras[ing]:
                     if "_" == des:
                         print(te.red(f"[!] A transição \"{ingrediente}, {desempilha} / {empilha}\" "
                         f"é compatível com a transição \"{ing}, {des} \","
-                        f" no estado {self.nome_estado}\nPor favor verificar determinismo")    )
-                    exit()
+                        f" no estado {self.nome_estado}")    )
+                        raise ErroTransicao("Não é deterministico")
+                        
+                    # exit()
         if ingrediente not in self.regras:
             self.regras[ingrediente] = dict()
         elif not isinstance(self.regras[ingrediente], dict):

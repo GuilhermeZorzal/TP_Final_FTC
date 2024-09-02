@@ -1,0 +1,15 @@
+Q: I ing1 ing2 ing3 ing4 ing5 erro F
+I: I
+F: F
+I -> ing1    | ftc
+ing1 -> ing2 | dan
+ing1 -> erro | o
+ing2 -> ing3 | sal
+ing2 -> erro | p
+ing3 -> ing4 | gam
+ing3 -> erro | cob
+ing4 -> ing5 | cas
+ing4 -> erro | alh
+ing5 -> F    | lst
+ing5 -> erro | sap
+F -> erro    | o

@@ -36,3 +36,10 @@ def sound_background():
     
 def stop_background_sound():
     pygame.mixer.music.stop()
+    
+def sound_end():
+    pygame.mixer.init()
+    
+    sound = pygame.mixer.Sound(dir+"end.mp3")
+    sound.play()   
+    pygame.time.wait(8000)
