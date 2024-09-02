@@ -7,13 +7,7 @@ import mealy as m
 from sound import sound_game_over, sound_pocao_criada, sound_add_ingrediente, sound_background, stop_background_sound
 import terminal as te
 
-dir = ''
-if platform.system() == "Windows":
-    dir = '../pocoes/'
-    os.system('cls')
-else:
-    dir = 'pocoes/'
-    os.system('clear')
+dir = 'pocoes/'
 
 
 

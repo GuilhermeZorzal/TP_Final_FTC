@@ -2,14 +2,7 @@ import pygame
 import os
 import platform
 
-dir = ''
-if platform.system() == "Windows":
-    dir = '../sound/'
-    os.system('cls')
-else:
-    dir = 'sound/'
-    os.system('clear')
-
+dir = 'sound/'
 
 def sound_game_over():
     pygame.mixer.init()
