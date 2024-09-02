@@ -3,6 +3,16 @@ from alfabeto import Alfabeto
 import time
 import os
 import platform
+from sound import sound_add_ingrediente, sound_game_over, sound_pocao_criada
+import terminal
+
+dir = ''
+if platform.system() == "Windows":
+    dir = '../pocoes/'
+    os.system('cls')
+else:
+    dir = 'pocoes/'
+    os.system('clear')
 # Realização dinâmica de um diagrama de estados
 class Mealy:
     def __init__(self):
@@ -23,6 +33,7 @@ class Mealy:
                     print("Ingrediente não reconhecido...")
                     continue
                 primeiro = False
+                sound_add_ingrediente()
             else:
                 resp = input("Deseja inserir mais um ingrediente? (s/n) ")
                 if resp != "s" and resp != "S":
@@ -31,6 +42,7 @@ class Mealy:
                 if not sigma.valida_ingrediente(ing):
                     print("Ingrediente não reconhecido...")
                     continue
+                sound_add_ingrediente()
             # print(self.descricoes[ing])
             sabor += int(self.descricoes[ing][1])
             poder += int(self.descricoes[ing][2])                
@@ -40,6 +52,8 @@ class Mealy:
             os.system('clear')
         for i in range(4):
             print("O corvo provador pegou uma colherada e está avaliado o sabor" + "." * i)
+            terminal.print_corvo()
+            
             time.sleep(0.5)
             if platform.system() == "Windows":
                 os.system('cls')
@@ -48,17 +62,41 @@ class Mealy:
         
         if sabor < 0:
             print("O corvo desmaiou defido ao gosto terrível da poção")
+            terminal.print_corvo()
+            input("Aperte enter para continuar")
             return
         if cont > 10:
             print("O corvo gralhou, disse que a poção ficou muito misturada e nao conseguiu provar direito")
+            terminal.print_corvo()
+            input("Aperte enter para continuar")
+            if platform.system() == "Windows":
+                os.system('cls')
+            else:
+                os.system('clear')
             return        
+        if poder >= 400:
+            print("O pocao é muito poderosa. O poder do corvo provador ultrapassa seu próprio poder! ele pega o caldeirão com as próprias garras e sai voando com ele pela janela!!!")
+            terminal.corvo_poderoso()
+            input("Aperte enter para continuar")
+            if platform.system() == "Windows":
+                os.system('cls')
+            else:
+                os.system('clear')
+            return
+        terminal.print_corvo()
         self.avalia_sabor(sabor)
         self.avalia_poder(poder)
+        input("Aperte enter para continuar")
+        if platform.system() == "Windows":
+            os.system('cls')
+        else:
+            os.system('clear')
+        
         return
 
     
     def le_mealy(self):
-        with open('../poções/mealy.txt') as arq:
+        with open(dir + 'mealy.txt') as arq:
             for line in arq:
                 ing, descricao = line.split(':')
                 ing = ing.strip()
@@ -102,9 +140,7 @@ class Mealy:
         elif poder < 200:
             print("O corvo provador disse que sua pocao é extremamente poderosa!!!")
             return
-        elif poder >= 400:
-            print("O pocao é muito poderosa. O poder do corvo provador ultrapassa seu próprio poder! ele pega o caldeirão com as próprias garras e sai voando com ele pela janela!!!")
-            return
+        
 
 
 

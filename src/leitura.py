@@ -13,7 +13,7 @@ def carrega_receita(nome_arq, sigma):
         # Leitura dos estados da máquina
         linha_estados = arq.readline().strip()
         if not linha_estados.startswith("Q:"):
-            print(f"[!] Em {nome_arq}: primeira linha deve especificar"
+            print(f"> leitura: [!] Em {nome_arq}: primeira linha deve especificar"
                   " os estados\nFormato: 'Q:' seguido pela lista de estados,"
                   " separados por espaços")
             return None
@@ -22,19 +22,19 @@ def carrega_receita(nome_arq, sigma):
         # Leitura do estado inicial da máquina
         linha_inicial = arq.readline().strip()
         if not linha_inicial.startswith("I:"):
-            print(f"[!] Em {nome_arq}: segunda linha deve especificar o"
+            print(f"> leitura: [!] Em {nome_arq}: segunda linha deve especificar o"
                   " estado inicial\nFormato 'I:' seguido do nome do estado"
                   " inicial")
             return None
         estado_inicial = linha_inicial[2:].lstrip()
         if not estado_inicial in estados:
-            print(f"[!] Em {nome_arq}: estado inicial desconhecido")
+            print(f"> leitura: [!] Em {nome_arq}: estado inicial desconhecido")
             return None
 
         # Leitura dos estados finais da máquina
         linha_finais = arq.readline().strip()
         if not linha_finais.startswith("F:"):
-            print(f"[!] Em {nome_arq}: segunda linha deve especificar"
+            print(f"> leitura: [!] Em {nome_arq}: segunda linha deve especificar"
                   " os estado finais\nFormato 'F' seguido pela lista de"
                   " estados finais, separados por espaços")
             return None
